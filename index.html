@@ -1,18 +1,23 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SharpOS — операционная система на чистом C#</title>
-<meta name="description" content="Экспериментальная ОС, целиком написанная на C#: UEFI-загрузка, NativeAOT-ядро, свой GC, приложения, трубы объектов. Запускает стоковый PowerShell 7 и DOOM.">
+<title>SharpOS — an operating system in pure C#</title>
+<meta name="description" content="An experimental OS written entirely in C#: UEFI boot, NativeAOT kernel, its own GC, apps and object pipes. Runs stock PowerShell 7 and DOOM.">
 <meta name="theme-color" content="#07090c">
-<meta property="og:title" content="SharpOS — операционная система на чистом C#">
-<meta property="og:description" content="Ни одного .c, .h или .asm. UEFI, NativeAOT-ядро, свой GC — и на этом работают PowerShell 7 и DOOM.">
+<meta property="og:title" content="SharpOS — an operating system in pure C#">
+<meta property="og:description" content="Not a single .c, .h or .asm file. UEFI, a NativeAOT kernel, its own GC — and it runs PowerShell 7 and DOOM.">
 <meta property="og:image" content="https://sharpos.net/media/screenshot.png">
 <meta property="og:url" content="https://sharpos.net/">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2307090c'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='20' font-weight='700' text-anchor='middle' fill='%237CFFB2'%3E%23%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://sharpos.net/">
+<link rel="alternate" hreflang="en" href="https://sharpos.net/">
+<link rel="alternate" hreflang="ru" href="https://sharpos.net/ru/">
+<link rel="alternate" hreflang="x-default" href="https://sharpos.net/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -70,6 +75,9 @@ nav ul a:hover{color:var(--fg)}
 .gh:hover{border-color:var(--acc);color:var(--acc)}
 .gh svg{width:16px;height:16px}
 
+.lang{font:600 13px var(--mono);color:var(--muted);text-decoration:none;padding:7px 10px;border:1px solid var(--line2);border-radius:999px;transition:.2s}
+.lang:hover{color:var(--acc);border-color:var(--acc)}
+nav ul+.lang{margin-left:0}
 /* hero */
 .hero{padding:88px 0 60px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:center}
@@ -241,6 +249,9 @@ footer a:hover{color:var(--acc)}
 /* responsive */
 .hero-grid>*,.inv>*,.show>*,.qs>*,.pipe-demo>*,.tiers>*,.launcher>*,.stats>*{min-width:0}
 @media (max-width:980px){
+  nav ul+.lang{margin-left:auto}
+  .lang+.gh{margin-left:0}
+  nav .wrap{gap:10px}
   .hero-grid,.qs,.pipe-demo,.show,.launcher{grid-template-columns:1fr}
   .tiers{grid-template-columns:1fr}
   .inv{grid-template-columns:1fr}
@@ -249,7 +260,6 @@ footer a:hover{color:var(--acc)}
   .stat:nth-child(2){border-right:0}
   .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
   nav ul{display:none}
-  .gh{margin-left:auto}
   section{padding:80px 0}
   .hero{padding:56px 0 40px}
 }
@@ -273,12 +283,13 @@ footer a:hover{color:var(--acc)}
   <div class="wrap">
     <a class="logo" href="#top"><b>#</b>SharpOS<span>.net</span></a>
     <ul>
-      <li><a href="#why">Идея</a></li>
-      <li><a href="#tiers">Архитектура</a></li>
-      <li><a href="#runs">Что работает</a></li>
-      <li><a href="#pipes">Трубы</a></li>
-      <li><a href="#start">Запуск</a></li>
+      <li><a href="#why">Idea</a></li>
+      <li><a href="#tiers">Architecture</a></li>
+      <li><a href="#runs">Demos</a></li>
+      <li><a href="#pipes">Pipes</a></li>
+      <li><a href="#start">Get started</a></li>
     </ul>
+    <a class="lang" href="ru/" hreflang="ru" lang="ru" title="Русский">RU</a>
     <a class="gh" href="https://github.com/daniilvaino/SharpOS" target="_blank" rel="noopener">
       <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       <span>GitHub</span>
@@ -291,30 +302,30 @@ footer a:hover{color:var(--acc)}
     <div class="hero-grid">
       <div>
         <div class="tag"><i></i>x86_64 · UEFI · NativeAOT</div>
-        <h1>ОС на<br><span class="sharp">чистом&nbsp;C#</span></h1>
-        <p class="lead">Загрузчик, ядро, сборщик мусора, драйверы, оболочка и приложения — <strong>всё на C#</strong>. В дереве нет ни одного файла <code>.c</code> или <code>.asm</code>. И на этом уже запускаются <strong>стоковый PowerShell&nbsp;7</strong> и <strong>DOOM</strong>.</p>
+        <h1>An OS in<br><span class="sharp">pure&nbsp;C#</span></h1>
+        <p class="lead">Bootloader, kernel, garbage collector, drivers, shell and apps — <strong>all C#</strong>. Not a single <code>.c</code> or <code>.asm</code> file in the tree. And it already runs <strong>stock PowerShell&nbsp;7</strong> and <strong>DOOM</strong>.</p>
         <div class="cta">
           <a class="btn pri" href="#start">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            Собрать и запустить
+            Build &amp; run it
           </a>
           <a class="btn sec" href="https://github.com/daniilvaino/SharpOS" target="_blank" rel="noopener">
             <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
-            Звезда на GitHub
+            Star on GitHub
           </a>
         </div>
       </div>
-      <div class="term" aria-label="Лог загрузки SharpOS">
+      <div class="term" aria-label="SharpOS boot log">
         <div class="term-bar"><i></i><i></i><i></i><span>COM1 — qemu-system-x86_64</span></div>
         <pre id="boot"></pre>
       </div>
     </div>
 
     <div class="stats rv">
-      <div class="stat"><b><em>0</em></b><span>файлов&nbsp;.c&nbsp;/&nbsp;.h&nbsp;/&nbsp;.asm в&nbsp;дереве</span></div>
-      <div class="stat"><b>3</b><span>яруса исполнения: ядро, PE-приложения, CoreCLR</span></div>
-      <div class="stat"><b>7.6.5</b><span>стоковый PowerShell байт-в-байт</span></div>
-      <div class="stat"><b>35<em>Hz</em></b><span>DOOM по таймеру HPET, вывод через GOP</span></div>
+      <div class="stat"><b><em>0</em></b><span>.c&nbsp;/&nbsp;.h&nbsp;/&nbsp;.asm files in&nbsp;the&nbsp;tree</span></div>
+      <div class="stat"><b>3</b><span>execution tiers: kernel, PE apps, CoreCLR</span></div>
+      <div class="stat"><b>7.6.5</b><span>stock PowerShell, byte-for-byte</span></div>
+      <div class="stat"><b>35<em>Hz</em></b><span>DOOM on an HPET timer, drawn via GOP</span></div>
     </div>
   </div>
 </header>
@@ -323,33 +334,33 @@ footer a:hover{color:var(--acc)}
 
 <section id="why">
   <div class="wrap">
-    <div class="kicker rv">Инвариант №1</div>
-    <h2 class="rv">Весь исходный код — на C#. <span class="g">Даже то, что обычно пишут на ассемблере.</span></h2>
-    <p class="sub rv">MSBuild и PowerShell только оркестрируют сборку. Обработчики прерываний, write barrier'ы, трамплины interface dispatch, чтение CR3 — всё решается одним из трёх способов.</p>
+    <div class="kicker rv">Invariant #1</div>
+    <h2 class="rv">Every line of source is C#. <span class="g">Even the parts you'd normally write in assembly.</span></h2>
+    <p class="sub rv">MSBuild and PowerShell only orchestrate the build. Interrupt handlers, write barriers, interface dispatch trampolines, reading CR3 — each is solved one of three ways.</p>
     <div class="inv">
       <div class="big0 rv">
         <div class="num">0</div>
-        <h3>строк на&nbsp;C, C++ или&nbsp;ассемблере</h3>
-        <p>Насколько известно, других ОС с таким инвариантом нет. Если задача кажется нерешаемой на C# — значит, она неверно поставлена.</p>
+        <h3>lines of C, C++ or&nbsp;assembly</h3>
+        <p>As far as we know, no other OS holds this invariant. If a task looks impossible in C#, it's been framed wrong.</p>
         <div class="exts"><span>.c</span><span>.cpp</span><span>.h</span><span>.asm</span><span>.s</span></div>
       </div>
       <div class="card rv">
-        <div class="n">01 / СРЕДСТВА ЯЗЫКА</div>
-        <h4>Сам C#</h4>
-        <p><code>[RuntimeExport]</code>, <code>[UnmanagedCallersOnly]</code>, <code>delegate* unmanaged</code>, <code>fixed</code>, арифметика указателей.</p>
+        <div class="n">01 / THE LANGUAGE ITSELF</div>
+        <h4>Plain C#</h4>
+        <p><code>[RuntimeExport]</code>, <code>[UnmanagedCallersOnly]</code>, <code>delegate* unmanaged</code>, <code>fixed</code>, pointer arithmetic.</p>
       </div>
       <div class="card rv">
-        <div class="n">02 / МАШИННЫЙ КОД ИЗ C#</div>
-        <h4>Ассемблер Iced — при сборке и на лету</h4>
-        <p>Source generator превращает 16 стабов раннего старта в байтовые шаблоны, а в рантайме Iced вызывается напрямую.</p>
+        <div class="n">02 / MACHINE CODE FROM C#</div>
+        <h4>Iced assembler — at build time and at runtime</h4>
+        <p>A source generator bakes 16 early-boot stubs into byte templates; once the heap is up, Iced is called directly.</p>
 <pre class="code"><span class="k">var</span> a = <span class="k">new</span> <span class="t">Assembler</span>(<span class="nu">64</span>);
 a.mov(rax, rcx);
 a.Assemble(writer, rip);</pre>
       </div>
       <div class="card rv">
-        <div class="n">03 / СИМВОЛЫ ИЗ АТРИБУТА</div>
-        <h4>COFF-объекты без единой строки на C</h4>
-        <p>Если линкеру нужен символ, который ILC не эмитит, MSBuild-задача сама создаёт <code>.obj</code>.</p>
+        <div class="n">03 / SYMBOLS FROM ATTRIBUTES</div>
+        <h4>COFF objects without a line of C</h4>
+        <p>When the linker needs a symbol ILC doesn't emit, an MSBuild task generates the <code>.obj</code> itself.</p>
 <pre class="code">[BootAsm.<span class="t">CoffDataSymbol</span>(<span class="s">"__security_cookie"</span>, Section = <span class="s">".data"</span>)]
 <span class="k">public static ulong</span> SecurityCookie = <span class="nu">0x2B992DDFA232UL</span>;</pre>
       </div>
@@ -359,35 +370,35 @@ a.Assemble(writer, rip);</pre>
 
 <section id="tiers" style="padding-top:40px">
   <div class="wrap">
-    <div class="kicker rv">Архитектура</div>
-    <h2 class="rv">Три яруса исполнения</h2>
-    <p class="sub rv">От голого железа до стоковых .NET-сборок, которые грузятся байт-в-байт. Unikernel: одно адресное пространство, свой планировщик, свой GC.</p>
+    <div class="kicker rv">Architecture</div>
+    <h2 class="rv">Three execution tiers</h2>
+    <p class="sub rv">From bare metal up to stock .NET assemblies loaded byte-for-byte. A unikernel: one address space, its own scheduler, its own GC.</p>
     <div class="tiers">
       <div class="tier rv" style="--tc:var(--acc)">
         <div class="lvl">TIER 0</div>
         <h3>Kernel-AOT</h3>
-        <p>Ядро, загрузка, драйверы, планировщик. Прямой доступ к CR3, PCI, MMIO, IDT, local APIC.</p>
+        <p>Kernel, boot, drivers, scheduler. Direct access to CR3, PCI, MMIO, IDT, local APIC.</p>
         <dl>
-          <div><dt>Где</dt><dd>OS/</dd></div>
-          <div><dt>Сборка</dt><dd>NativeAOT + NoStdLib + MinimalRuntime</dd></div>
+          <div><dt>Lives in</dt><dd>OS/</dd></div>
+          <div><dt>Built with</dt><dd>NativeAOT + NoStdLib + MinimalRuntime</dd></div>
         </dl>
       </div>
       <div class="tier rv" style="--tc:var(--acc2)">
         <div class="lvl">TIER 1</div>
         <h3>PE-app</h3>
-        <p>Freestanding-приложения: лаунчер, оболочка, DOOM, эмуляторы NES. У каждого — свой сборщик и своя куча.</p>
+        <p>Freestanding apps: launcher, shell, DOOM, NES emulators. Each one gets its own collector and heap.</p>
         <dl>
-          <div><dt>Где</dt><dd>apps_native/</dd></div>
-          <div><dt>Сборка</dt><dd>NativeAOT + NoStdLib + общий SDK</dd></div>
+          <div><dt>Lives in</dt><dd>apps_native/</dd></div>
+          <div><dt>Built with</dt><dd>NativeAOT + NoStdLib + shared SDK</dd></div>
         </dl>
       </div>
       <div class="tier rv" style="--tc:var(--warn)">
         <div class="lvl">TIER 2</div>
         <h3>CoreCLR-hosted</h3>
-        <p>Стоковые .NET DLL байт-в-байт: JIT, рефлексия, полный BCL. Так работает PowerShell.</p>
+        <p>Stock .NET DLLs, byte-for-byte: JIT, reflection, the full BCL. This is how PowerShell runs.</p>
         <dl>
-          <div><dt>Где</dt><dd>\sharpos\*.dll на FAT</dd></div>
-          <div><dt>Сборка</dt><dd>форк CoreCLR, слинкован с ядром</dd></div>
+          <div><dt>Lives in</dt><dd>\sharpos\*.dll on FAT</dd></div>
+          <div><dt>Built with</dt><dd>CoreCLR fork, linked into the kernel</dd></div>
         </dl>
       </div>
     </div>
@@ -396,31 +407,31 @@ a.Assemble(writer, rip);</pre>
 
 <section id="runs" style="padding-top:40px">
   <div class="wrap">
-    <div class="kicker rv">Демо</div>
-    <h2 class="rv">Это не hello world. <span class="g">Это PowerShell и DOOM на голом железе.</span></h2>
-    <p class="sub rv">Самые требовательные тесты всего стека сразу: TPL, исключения, рефлексия, GC, FAT32, ANSI-консоль, framebuffer.</p>
+    <div class="kicker rv">Demos</div>
+    <h2 class="rv">Not a hello world. <span class="g">PowerShell and DOOM on bare metal.</span></h2>
+    <p class="sub rv">The toughest tests of the whole stack at once: TPL, exceptions, reflection, GC, FAT32, ANSI console, framebuffer.</p>
     <div class="show">
       <article class="shot rv">
-        <div class="img"><img src="media/pwsh.jpg" alt="PowerShell 7.6.5 работает в SharpOS: Get-ChildItem, Tab-дополнение, переменные" loading="lazy" width="1600" height="997"></div>
+        <div class="img"><img src="media/pwsh.jpg" alt="PowerShell 7.6.5 running on SharpOS: Get-ChildItem, tab completion, variables" loading="lazy" width="1600" height="997"></div>
         <div class="body">
           <h3>PowerShell <span class="pill">7.6.5</span></h3>
-          <p>Стоковый pwsh грузится с FAT32 до интерактивного приглашения и выполняет настоящие командлеты. PSReadLine работает полностью: цвета, Tab, история, Ctrl+C.</p>
-          <ul><li>Get-ChildItem</li><li>конвейеры</li><li>[Math]::Sqrt</li><li>PSReadLine</li><li>XtermSharp</li></ul>
+          <p>Stock pwsh boots from FAT32 to an interactive prompt and runs real cmdlets. PSReadLine works fully: colors, Tab completion, history, Ctrl+C.</p>
+          <ul><li>Get-ChildItem</li><li>pipelines</li><li>[Math]::Sqrt</li><li>PSReadLine</li><li>XtermSharp</li></ul>
         </div>
       </article>
       <article class="shot doom rv">
-        <div class="img"><img src="media/doom_small.gif" alt="DOOM запущен в SharpOS" loading="lazy" width="386" height="263"></div>
+        <div class="img"><img src="media/doom_small.gif" alt="DOOM running on SharpOS" loading="lazy" width="386" height="263"></div>
         <div class="body">
-          <h3>DOOM <span class="pill">играбелен</span></h3>
-          <p>ManagedDoom собран как PE-приложение поверх своей std: WAD читается с FAT32, картинка через GOP с увеличением 2×, PS/2-клавиатура, 35&nbsp;Гц по HPET.</p>
+          <h3>DOOM <span class="pill">playable</span></h3>
+          <p>ManagedDoom built as a PE app on our own std: the WAD is read from FAT32, frames go out via GOP at 2× scale, PS/2 keyboard input, 35&nbsp;Hz off the HPET.</p>
           <ul><li>ManagedDoom</li><li>FAT32</li><li>GOP</li><li>HPET</li><li>PS/2</li></ul>
         </div>
       </article>
       <article class="shot wide launcher rv">
-        <div class="img"><img src="media/screenshot.png" alt="Лаунчер SharpOS и вывод fetch.exe" loading="lazy" width="1600" height="855"></div>
+        <div class="img"><img src="media/screenshot.png" alt="SharpOS launcher and fetch.exe output" loading="lazy" width="1600" height="855"></div>
         <div class="body">
-          <h3>Своя среда</h3>
-          <p>Лаунчер на Terminal.Gui, оболочка с синтаксисом bash и историей, процессы до 16 штук с <code>Process.Start</code>, свой FAT32 с записью, USB-стек на xHCI, проверенный на реальном железе, эмуляторы NES.</p>
+          <h3>A whole environment</h3>
+          <p>A Terminal.Gui launcher, a bash-syntax shell with history, up to 16 processes via <code>Process.Start</code>, a FAT32 driver that writes, an xHCI USB stack tested on real hardware, NES emulators.</p>
           <ul><li>Terminal.Gui</li><li>bash-like shell</li><li>xHCI USB</li><li>FAT32 r/w</li><li>NES</li></ul>
         </div>
       </article>
@@ -430,9 +441,9 @@ a.Assemble(writer, rip);</pre>
 
 <section id="pipes" style="padding-top:40px">
   <div class="wrap">
-    <div class="kicker rv">Трубы</div>
-    <h2 class="rv">Программы передают <span class="sharp" style="background:linear-gradient(100deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent">объекты</span>, а не байты</h2>
-    <p class="sub rv"><code>PIPEGEN | PIPEFILT 3 | PIPECNT</code> работает как в bash, но каждая стадия получает настоящий объект с полями. Объект лежит в общей памяти обмена — без парсинга и без копирования в кучу получателя.</p>
+    <div class="kicker rv">Pipes</div>
+    <h2 class="rv">Programs pass <span class="sharp" style="background:linear-gradient(100deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent">objects</span>, not bytes</h2>
+    <p class="sub rv"><code>PIPEGEN | PIPEFILT 3 | PIPECNT</code> works just like in bash — but every stage receives a real object with fields. It lives in shared exchange memory: no parsing, no copying into the receiver's heap.</p>
     <div class="pipe-demo">
       <div class="flow rv">
         <div class="stage"><span class="ic">›</span>PIPEGEN 1000<small>LogEntry × 1000</small></div>
@@ -442,26 +453,26 @@ a.Assemble(writer, rip);</pre>
         <div class="stage"><span class="ic">?</span>PIPESPY b<small>@ 0x7F3A2000</small></div>
         <div class="conn"></div>
         <div class="stage"><span class="ic">ƒ</span>KQL 'where Level &gt;= 3 | summarize n = count() by Level'</div>
-        <div class="addr">Обе стадии <code>PIPESPY</code> видят <b>один и тот же адрес</b>: один объект проходит через четыре программы.</div>
+        <div class="addr">Both <code>PIPESPY</code> stages see <b>the same address</b>: one object flows through four programs.</div>
       </div>
       <div class="feat">
         <div class="card rv">
-          <h4><i>0 alloc</i> Ноль выделений на сообщение</h4>
-          <p>Копия, пересылка, чтение на месте. На графе из 100 объектов — в 5–6 раз быстрее <code>BinaryWriter</code> + <code>BinaryReader</code>.</p>
+          <h4><i>0 alloc</i> Zero allocations per message</h4>
+          <p>Copy, forward, read in place. On a 100-object graph it's 5–6× faster than <code>BinaryWriter</code> + <code>BinaryReader</code>.</p>
         </div>
         <div class="card rv">
-          <h4><i>KQL</i> Запросы прямо в конвейере</h4>
-          <p>Kusto Query Language над потоком сообщений: <code>where</code>, <code>summarize</code>, <code>extend</code>, <code>project</code>. Запрос связывается до первых данных.</p>
+          <h4><i>KQL</i> Queries right in the pipeline</h4>
+          <p>Kusto Query Language over a message stream: <code>where</code>, <code>summarize</code>, <code>extend</code>, <code>project</code>. The query binds before the first data arrives.</p>
         </div>
         <div class="card rv">
-          <h4><i>[Message]</i> Один атрибут — и тип ходит по трубе</h4>
+          <h4><i>[Message]</i> One attribute and a type can travel</h4>
 <pre class="code"><span class="t">Pipe</span>.Read&lt;<span class="t">LogEntry</span>&gt;()
     .Where(e =&gt; e.Level &gt;= min)
-    .WriteTo();  <span class="cm">// без копии</span></pre>
+    .WriteTo();  <span class="cm">// zero-copy</span></pre>
         </div>
         <div class="card rv">
           <h4><i>CONVERT</i> JSON, JSON Lines, CBOR</h4>
-          <p>Потоково, в памяти одно сообщение: файл на 100&nbsp;МиБ проходит через кучу в 64&nbsp;МиБ.</p>
+          <p>Fully streaming, one message in memory: a 100&nbsp;MiB file passes through a 64&nbsp;MiB heap.</p>
         </div>
       </div>
     </div>
@@ -470,34 +481,34 @@ a.Assemble(writer, rip);</pre>
 
 <section id="status" style="padding-top:40px">
   <div class="wrap">
-    <div class="kicker rv">Статус</div>
-    <h2 class="rv">Что уже работает</h2>
-    <p class="sub rv">Каждая ✅ подтверждена прогоном проб в ядре. Полная матрица с комментариями — в README.</p>
+    <div class="kicker rv">Status</div>
+    <h2 class="rv">What works today</h2>
+    <p class="sub rv">Every green dot is confirmed by in-kernel probe runs. The full matrix with notes lives in the README.</p>
     <div class="matrix rv"><div class="mx-scroll">
       <table>
-        <thead><tr><th>Возможность</th><th>Kernel-AOT</th><th>PE-app</th><th>CoreCLR</th></tr></thead>
+        <thead><tr><th>Feature</th><th>Kernel-AOT</th><th>PE-app</th><th>CoreCLR</th></tr></thead>
         <tbody>
-          <tr><td>Управляемая куча, GC с точным сканированием стека</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
-          <tr><td><code>try</code> / <code>catch</code> / <code>finally</code> / фильтры <code>when</code></td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
-          <tr><td><code>async</code> / <code>await</code>, <code>yield return</code>, лямбды</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
-          <tr><td>Коллекции BCL, LINQ</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
-          <tr><td><code>Task.Run</code>, <code>lock</code>, многопоточные процессы</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
-          <tr><td><code>Math</code> с правильным округлением (SharpLibm, CORE-MATH)</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st p"></i></td></tr>
+          <tr><td>Managed heap, GC with precise stack scanning</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
+          <tr><td><code>try</code> / <code>catch</code> / <code>finally</code> / <code>when</code> filters</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
+          <tr><td><code>async</code> / <code>await</code>, <code>yield return</code>, lambdas</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
+          <tr><td>BCL collections, LINQ</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
+          <tr><td><code>Task.Run</code>, <code>lock</code>, multithreaded processes</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st y"></i></td></tr>
+          <tr><td>Correctly rounded <code>Math</code> (SharpLibm, CORE-MATH)</td><td><i class="st y"></i></td><td><i class="st y"></i></td><td><i class="st p"></i></td></tr>
           <tr><td><code>dynamic</code></td><td><i class="st n"></i></td><td><i class="st p"></i></td><td><i class="st y"></i></td></tr>
-          <tr><td>Рефлексия</td><td><i class="st n"></i></td><td><i class="st n"></i></td><td><i class="st y"></i></td></tr>
-          <tr><td>USB (xHCI): клавиатура, флешки, аппаратный ключ U2F</td><td><i class="st p"></i></td><td><i class="st p"></i></td><td><i class="st x"></i></td></tr>
-          <tr><td>Вытесняющая многозадачность</td><td><i class="st p"></i></td><td><i class="st p"></i></td><td><i class="st p"></i></td></tr>
+          <tr><td>Reflection</td><td><i class="st n"></i></td><td><i class="st n"></i></td><td><i class="st y"></i></td></tr>
+          <tr><td>USB (xHCI): keyboard, flash drives, U2F hardware key</td><td><i class="st p"></i></td><td><i class="st p"></i></td><td><i class="st x"></i></td></tr>
+          <tr><td>Preemptive multitasking</td><td><i class="st p"></i></td><td><i class="st p"></i></td><td><i class="st p"></i></td></tr>
           <tr><td>SMP</td><td><i class="st l"></i></td><td><i class="st l"></i></td><td><i class="st l"></i></td></tr>
-          <tr><td>Сеть</td><td><i class="st n"></i></td><td><i class="st n"></i></td><td><i class="st n"></i></td></tr>
+          <tr><td>Networking</td><td><i class="st n"></i></td><td><i class="st n"></i></td><td><i class="st n"></i></td></tr>
         </tbody>
       </table>
     </div></div>
     <div class="legend">
-      <span><i class="st y"></i>работает</span>
-      <span><i class="st p"></i>частично</span>
-      <span><i class="st l"></i>запланировано</span>
-      <span><i class="st n"></i>пока нет</span>
-      <span><i class="st x"></i>неприменимо</span>
+      <span><i class="st y"></i>works</span>
+      <span><i class="st p"></i>partial</span>
+      <span><i class="st l"></i>planned</span>
+      <span><i class="st n"></i>not yet</span>
+      <span><i class="st x"></i>not applicable</span>
     </div>
   </div>
 </section>
@@ -506,14 +517,14 @@ a.Assemble(writer, rip);</pre>
   <div class="wrap">
     <div class="qs">
       <div>
-        <div class="kicker rv">Быстрый старт</div>
-        <h2 class="rv">Соберите сами</h2>
-        <p class="sub rv" style="margin-bottom:36px">Собирается обычным <code>dotnet publish -r win-x64</code>. Зависимости ставит mise или nix, образ запускается в QEMU.</p>
+        <div class="kicker rv">Quick start</div>
+        <h2 class="rv">Build it yourself</h2>
+        <p class="sub rv" style="margin-bottom:36px">It builds with a plain <code>dotnet publish -r win-x64</code>. mise or nix installs the toolchain, and the image boots in QEMU.</p>
         <ol class="steps rv">
-          <li><b>Поставить mise или nix</b>Все версии инструментов закреплены в <code>mise.toml</code> / <code>flake.lock</code>.</li>
-          <li><b>Клонировать с подмодулями</b>Форк CoreCLR — по желанию, без него флаг <code>-SkipCoreClr</code>.</li>
-          <li><b>Собрать и запустить</b><code>run_build.ps1</code> собирает ядро, делает образ и запускает QEMU.</li>
-          <li><b>Положить payloads</b>DOOM1.WAD, картриджи <code>.nes</code> и PowerShell — в <code>payloads/</code>.</li>
+          <li><b>Install mise or nix</b>Every tool version is pinned in <code>mise.toml</code> / <code>flake.lock</code>.</li>
+          <li><b>Clone with submodules</b>The CoreCLR fork is optional — skip it with <code>-SkipCoreClr</code>.</li>
+          <li><b>Build and run</b><code>run_build.ps1</code> builds the kernel, makes the image and launches QEMU.</li>
+          <li><b>Drop in payloads</b>DOOM1.WAD, <code>.nes</code> cartridges and PowerShell go into <code>payloads/</code>.</li>
         </ol>
       </div>
       <div class="rv">
@@ -522,9 +533,9 @@ a.Assemble(writer, rip);</pre>
           <button role="tab" aria-selected="false" data-t="nix">nix</button>
         </div>
         <div class="panel on" id="p-mise">
-          <div class="codebox"><button class="copy">копировать</button>
+          <div class="codebox"><button class="copy">copy</button>
 <pre><span class="cm"># macOS / Linux / Windows</span>
-brew install mise            <span class="cm"># или winget install jdx.mise</span>
+brew install mise            <span class="cm"># or: winget install jdx.mise</span>
 
 git clone --recurse-submodules \
   https://github.com/daniilvaino/SharpOS.git
@@ -532,20 +543,20 @@ git clone --recurse-submodules \
 mise trust &amp;&amp; mise bootstrap
 mise exec -- pwsh
 
-<span class="cm"># дальше в PowerShell</span>
+<span class="cm"># then, in PowerShell</span>
 ./build.ps1 launcher
 <span class="t">$env:SHARPOS_GUI</span>=<span class="nu">1</span>; ./run_build.ps1 -UsbOnly -SkipCoreClr</pre>
           </div>
         </div>
         <div class="panel" id="p-nix">
-          <div class="codebox"><button class="copy">копировать</button>
-<pre><span class="cm"># NixOS или любой Linux с включёнными флейками</span>
+          <div class="codebox"><button class="copy">copy</button>
+<pre><span class="cm"># NixOS or any Linux with flakes enabled</span>
 git clone --recurse-submodules \
   https://github.com/daniilvaino/SharpOS.git
 <span class="k">cd</span> SharpOS
 nix develop --command pwsh
 
-<span class="cm"># дальше в PowerShell</span>
+<span class="cm"># then, in PowerShell</span>
 ./build.ps1 launcher
 <span class="t">$env:SHARPOS_GUI</span>=<span class="nu">1</span>; ./run_build.ps1 -UsbOnly -SkipCoreClr</pre>
           </div>
@@ -557,18 +568,18 @@ nix develop --command pwsh
 
 <section id="credits" style="padding-top:40px">
   <div class="wrap">
-    <div class="kicker rv">На плечах гигантов</div>
-    <h2 class="rv">Библиотеки и вдохновение</h2>
-    <p class="sub rv">Чужой код, который попадает в образ, и проекты, на которых SharpOS учился.</p>
+    <div class="kicker rv">Standing on shoulders</div>
+    <h2 class="rv">Libraries &amp; inspiration</h2>
+    <p class="sub rv">Third-party code that ships in the image, and the projects SharpOS learned from.</p>
     <div class="credits rv">
-      <a class="cr" href="https://github.com/MichalStrehovsky/zerosharp" target="_blank" rel="noopener"><b>zerosharp <small>старт</small></b><span>UEFI hello world на NativeAOT — отсюда всё началось.</span></a>
-      <a class="cr" href="https://github.com/dotnet/runtime" target="_blank" rel="noopener"><b>dotnet/runtime <small>MIT</small></b><span>Toolchain NativeAOT, форк CoreCLR, сотни портов BCL.</span></a>
-      <a class="cr" href="https://github.com/icedland/iced" target="_blank" rel="noopener"><b>Iced <small>MIT</small></b><span>Кодировщик x86-64: весь ассемблер проекта.</span></a>
-      <a class="cr" href="https://github.com/sinshu/managed-doom" target="_blank" rel="noopener"><b>ManagedDoom <small>GPL-2.0</small></b><span>DOOM на C#, изолирован в отдельном приложении.</span></a>
-      <a class="cr" href="https://github.com/gui-cs/Terminal.Gui" target="_blank" rel="noopener"><b>Terminal.Gui <small>MIT</small></b><span>Текстовый интерфейс, на нём написан лаунчер.</span></a>
-      <a class="cr" href="https://github.com/migueldeicaza/XtermSharp" target="_blank" rel="noopener"><b>XtermSharp <small>MIT</small></b><span>Движок эмулятора терминала: ANSI/VT, прокрутка.</span></a>
-      <a class="cr" href="https://github.com/microsoft/Kusto-Query-Language" target="_blank" rel="noopener"><b>Kusto.Language <small>Apache-2.0</small></b><span>Разбор и связывание KQL для запросов в трубах.</span></a>
-      <a class="cr" href="https://github.com/CosmosOS/Cosmos" target="_blank" rel="noopener"><b>Cosmos <small>идея</small></b><span>Сама идея managed-операционной системы.</span></a>
+      <a class="cr" href="https://github.com/MichalStrehovsky/zerosharp" target="_blank" rel="noopener"><b>zerosharp <small>origin</small></b><span>A UEFI hello world on NativeAOT — where it all began.</span></a>
+      <a class="cr" href="https://github.com/dotnet/runtime" target="_blank" rel="noopener"><b>dotnet/runtime <small>MIT</small></b><span>NativeAOT toolchain, the CoreCLR fork, hundreds of BCL ports.</span></a>
+      <a class="cr" href="https://github.com/icedland/iced" target="_blank" rel="noopener"><b>Iced <small>MIT</small></b><span>x86-64 encoder: every bit of assembly in the project.</span></a>
+      <a class="cr" href="https://github.com/sinshu/managed-doom" target="_blank" rel="noopener"><b>ManagedDoom <small>GPL-2.0</small></b><span>DOOM in C#, isolated in its own app.</span></a>
+      <a class="cr" href="https://github.com/gui-cs/Terminal.Gui" target="_blank" rel="noopener"><b>Terminal.Gui <small>MIT</small></b><span>Text UI toolkit the launcher is built on.</span></a>
+      <a class="cr" href="https://github.com/migueldeicaza/XtermSharp" target="_blank" rel="noopener"><b>XtermSharp <small>MIT</small></b><span>Terminal emulator engine: ANSI/VT, scrollback.</span></a>
+      <a class="cr" href="https://github.com/microsoft/Kusto-Query-Language" target="_blank" rel="noopener"><b>Kusto.Language <small>Apache-2.0</small></b><span>KQL parsing and binding for pipeline queries.</span></a>
+      <a class="cr" href="https://github.com/CosmosOS/Cosmos" target="_blank" rel="noopener"><b>Cosmos <small>idea</small></b><span>The very idea of a managed operating system.</span></a>
     </div>
   </div>
 </section>
@@ -576,11 +587,11 @@ nix develop --command pwsh
 <section class="final">
   <div class="glow"></div>
   <div class="wrap">
-    <h2 class="rv">C# от <span class="sharp" style="background:linear-gradient(100deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent">первой инструкции</span> до DOOM</h2>
-    <p class="sub rv">Открытый код, лицензия CC0 — общественное достояние. Используйте, изменяйте, присылайте PR.</p>
+    <h2 class="rv">C# from the <span class="sharp" style="background:linear-gradient(100deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent">first instruction</span> to DOOM</h2>
+    <p class="sub rv">Open source under CC0 — public domain. Use it, change it, send PRs.</p>
     <div class="cta rv">
-      <a class="btn pri" href="https://github.com/daniilvaino/SharpOS" target="_blank" rel="noopener">Открыть репозиторий</a>
-      <a class="btn sec" href="https://github.com/daniilvaino/SharpOS/blob/main/limits.md" target="_blank" rel="noopener">Известные ограничения</a>
+      <a class="btn pri" href="https://github.com/daniilvaino/SharpOS" target="_blank" rel="noopener">Open the repository</a>
+      <a class="btn sec" href="https://github.com/daniilvaino/SharpOS/blob/main/limits.md" target="_blank" rel="noopener">Known limitations</a>
     </div>
   </div>
 </section>
@@ -589,11 +600,10 @@ nix develop --command pwsh
 
 <footer>
   <div class="wrap">
-    <span>SharpOS · CC0 1.0 Universal</span>
+    <span>SharpOS · CC0 1.0 Universal · <a href="ru/" hreflang="ru">По-русски</a></span>
     <span><a href="https://github.com/daniilvaino/SharpOS">github.com/daniilvaino/SharpOS</a></span>
   </div>
 </footer>
-
 <script>
 (() => {
   // boot log typing
@@ -667,8 +677,8 @@ nix develop --command pwsh
   // copy
   document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', async () => {
     const txt = b.nextElementSibling.innerText.split('\n').filter(l => !l.trim().startsWith('#')).map(l => l.replace(/\s+#.*$/, '')).join('\n').trim();
-    try { await navigator.clipboard.writeText(txt); b.textContent = 'скопировано ✓'; } catch { b.textContent = 'не вышло'; }
-    setTimeout(() => b.textContent = 'копировать', 1600);
+    try { await navigator.clipboard.writeText(txt); b.textContent = 'copied ✓'; } catch { b.textContent = 'failed'; }
+    setTimeout(() => b.textContent = 'copy', 1600);
   }));
 })();
 </script>
