@@ -100,8 +100,8 @@ section > .wrap > h2 + p, .intro { color: var(--fg-2); max-width: 40em; font-siz
 .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 36px; }
 .cols > div { border-top: 1px solid var(--line); padding-top: 18px; }
 .cols p { color: var(--fg-2); font-size: 16px; }
-.cols pre, .pipes pre, .list pre { white-space: pre-wrap; overflow-wrap: anywhere; }
-.cols pre { margin-top: 12px; }
+.cols pre, .pipes pre, .list pre { white-space: pre-wrap; overflow-wrap: normal; word-break: normal; }
+.cols pre { margin-top: 12px; font-size: 12.5px; }
 dl { margin: 0; }
 dl.kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 15px; }
 dl.kv dt { color: var(--fg-3); }

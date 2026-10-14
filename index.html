@@ -88,8 +88,11 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
         <div class="label">3 · Symbols from attributes</div>
         <h3>COFF objects without a line of C</h3>
         <p>When the linker needs a symbol ILC does not emit, an MSBuild task generates the <code>.obj</code> itself.</p>
-<pre><code>[<span class="t">BootAsm</span>.<span class="t">CoffDataSymbol</span>(<span class="str">"__security_cookie"</span>, Section = <span class="str">".data"</span>)]
-<span class="k">public static ulong</span> SecurityCookie = <span class="n">0x2B992DDFA232UL</span>;</code></pre>
+<pre><code>[<span class="t">BootAsm</span>.<span class="t">CoffDataSymbol</span>(
+    <span class="str">"__security_cookie"</span>,
+    Section = <span class="str">".data"</span>)]
+<span class="k">public static ulong</span> SecurityCookie
+    = <span class="n">0x2B992DDFA232UL</span>;</code></pre>
       </div>
     </div>
   </div>
