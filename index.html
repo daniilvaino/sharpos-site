@@ -43,27 +43,29 @@
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="eyebrow">x86_64 · UEFI · NativeAOT · CC0</div>
-    <h1>An operating system written entirely in C#.</h1>
-    <p class="lead">Bootloader, kernel, garbage collector, drivers, shell and applications. There is <strong>not a single <code>.c</code>, <code>.h</code> or <code>.asm</code> file</strong> in the tree, except for the CoreCLR fork, and it already runs stock <strong>PowerShell 7</strong> and <strong>DOOM</strong>.</p>
-    <div class="actions">
-      <a class="btn" href="#start">Build and run it</a>
-      <a href="https://github.com/daniilvaino/SharpOS">Repository on GitHub</a>
-      <a href="https://github.com/daniilvaino/SharpOS/blob/main/limits.md">Known limitations</a>
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">x86_64 · UEFI · NativeAOT · CC0</div>
+        <h1>An operating system written entirely in C#.</h1>
+        <p class="lead">Bootloader, kernel, garbage collector, drivers, shell and applications. There is <strong>not a single <code>.c</code>, <code>.h</code> or <code>.asm</code> file</strong> in the tree, except for the CoreCLR fork, and it already runs stock <strong>PowerShell 7</strong> and <strong>DOOM</strong>.</p>
+        <div class="actions">
+          <a class="btn" href="#start">Build and run it</a>
+          <a href="https://github.com/daniilvaino/SharpOS">Repository on GitHub</a>
+          <a href="https://github.com/daniilvaino/SharpOS/blob/main/limits.md">Known limitations</a>
+        </div>
+      </div>
+      <div class="term" aria-label="SharpOS boot log">
+        <div class="term-bar"><i></i><i></i><i></i><span>COM1 — qemu-system-x86_64</span></div>
+        <pre id="boot"></pre>
+      </div>
     </div>
-
-    <figure>
-      <div class="frame"><img src="media/screenshot.png" alt="SharpOS shell in QEMU: fetch.exe prints the SharpOS logo, build id, image and stack ranges" width="1600" height="855"></div>
-      <figcaption>fetch.exe in the SharpOS shell. QEMU, 1280×800 GOP framebuffer.</figcaption>
-    </figure>
-
   </div>
 </header>
 
 <main>
 
 <section id="why">
-  <div class="wrap">
+  <div class="wrap rv">
     <div class="label">Invariant #1</div>
     <h2>Every line of source is C#, even the parts you would normally write in assembly.</h2>
     <p>MSBuild and PowerShell only orchestrate the build. Interrupt handlers, write barriers, interface dispatch trampolines, reading CR3: each is solved one of three ways. Zero lines of C, C++ or assembly, except for the CoreCLR fork. As far as we know, no other OS holds this invariant. If a task looks impossible in C#, it has been framed wrong.</p>
@@ -93,7 +95,7 @@ public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
 </section>
 
 <section id="tiers">
-  <div class="wrap">
+  <div class="wrap rv">
     <div class="label">Architecture</div>
     <h2>Three execution tiers</h2>
     <p>From bare metal up to stock .NET assemblies loaded byte-for-byte. A unikernel: one address space, its own scheduler, its own GC.</p>
@@ -121,48 +123,49 @@ public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
 </section>
 
 <section id="runs">
-  <div class="wrap">
+  <div class="wrap rv">
     <div class="label">Demos</div>
     <h2>Not a hello world: PowerShell and DOOM on bare metal.</h2>
     <p>The toughest tests of the whole stack at once: TPL, exceptions, reflection, GC, FAT32, ANSI console, framebuffer.</p>
     <div class="demos">
-      <figure class="demo">
+      <figure class="demo rv">
         <div class="frame"><img src="media/pwsh.jpg" alt="PowerShell 7.6.5 running on SharpOS: Get-ChildItem, tab completion, variables" loading="lazy" width="1600" height="997"></div>
         <h3>PowerShell 7.6.5</h3>
         <p>Stock pwsh boots from FAT32 to an interactive prompt and runs real cmdlets. PSReadLine works fully: colors, Tab completion, history, Ctrl+C.</p>
         <div class="tags">Get-ChildItem · pipelines · [Math]::Sqrt · PSReadLine · XtermSharp</div>
       </figure>
-      <figure class="demo">
+      <figure class="demo rv">
         <div class="frame"><video src="media/doom.mp4" poster="media/doom_poster.jpg" autoplay muted loop playsinline width="386" height="262" aria-label="DOOM running on SharpOS"></video></div>
         <h3>DOOM</h3>
         <p>ManagedDoom built as a PE app on our own std. The WAD is read from FAT32, frames go out via GOP at 2× scale, PS/2 keyboard input, 35 Hz off the HPET.</p>
         <div class="tags">ManagedDoom · FAT32 · GOP · HPET · PS/2</div>
       </figure>
-      <div class="demo wide">
-        <h3>A whole environment</h3>
+      <figure class="demo wide rv">
+        <div class="frame"><img src="media/screenshot.png" alt="SharpOS launcher and fetch.exe output" loading="lazy" width="1600" height="855"></div>
         <div>
+          <h3>A whole environment</h3>
           <p>A Terminal.Gui launcher, a bash-syntax shell with history, up to 16 processes via <code>Process.Start</code>, a FAT32 driver that writes, an xHCI USB stack tested on real hardware, NES emulators.</p>
           <div class="tags">Terminal.Gui · bash-like shell · xHCI USB · FAT32 r/w · NES</div>
         </div>
-      </div>
+      </figure>
     </div>
   </div>
 </section>
 
 <section id="pipes">
-  <div class="wrap">
+  <div class="wrap rv">
     <div class="label">Pipes</div>
     <h2>Programs pass objects, not bytes.</h2>
     <p><code>PIPEGEN | PIPEFILT 3 | PIPECNT</code> works just like in bash, but every stage receives a real object with fields. It lives in shared exchange memory: no parsing, no copying into the receiver's heap.</p>
     <div class="pipes">
-      <div>
-<pre><code><b>$</b> PIPEGEN 1000 | PIPESPY a | PIPESPY b | KQL 'where Level >= 3 | summarize n = count() by Level'
-<i>PIPESPY a:</i> LogEntry @ 0x7F3A2000
-<i>PIPESPY b:</i> LogEntry @ 0x7F3A2000
-<i>KQL:</i>
-Level  n
-3      200
-4      200</code></pre>
+      <div class="flow">
+        <div class="stage"><span class="ic">›</span>PIPEGEN 1000<small>LogEntry × 1000</small></div>
+        <div class="conn"></div>
+        <div class="stage"><span class="ic">?</span>PIPESPY a<small>@ 0x7F3A2000</small></div>
+        <div class="conn"></div>
+        <div class="stage"><span class="ic">?</span>PIPESPY b<small>@ 0x7F3A2000</small></div>
+        <div class="conn"></div>
+        <div class="stage"><span class="ic">ƒ</span>KQL 'where Level &gt;= 3 | summarize n = count() by Level'</div>
         <p class="note">Both <code>PIPESPY</code> stages report the same address: one object flows through four programs without being copied.</p>
       </div>
       <ul class="list">
@@ -179,7 +182,7 @@ Level  n
 </section>
 
 <section id="status">
-  <div class="wrap">
+  <div class="wrap rv">
     <div class="label">Status</div>
     <h2>What works today</h2>
     <p>Every “works” mark is confirmed by in-kernel probe runs. The full matrix with notes lives in the <a href="https://github.com/daniilvaino/SharpOS#readme">README</a>.</p>
@@ -213,7 +216,7 @@ Level  n
 </section>
 
 <section id="start">
-  <div class="wrap">
+  <div class="wrap rv">
     <div class="label">Quick start</div>
     <h2>Build it yourself</h2>
     <p>It builds with a plain <code>dotnet publish -r win-x64</code>. mise or nix installs the toolchain, and the image boots in QEMU.</p>
@@ -262,7 +265,7 @@ $env:SHARPOS_GUI=1; ./run_build.ps1 -UsbOnly -SkipCoreClr</code></pre>
 </section>
 
 <section id="credits">
-  <div class="wrap">
+  <div class="wrap rv">
     <div class="label">Credits</div>
     <h2>Libraries and inspiration</h2>
     <p>Third-party code that ships in the image, and the projects SharpOS learned from.</p>
@@ -280,7 +283,7 @@ $env:SHARPOS_GUI=1; ./run_build.ps1 -UsbOnly -SkipCoreClr</code></pre>
 </section>
 
 <section class="end">
-  <div class="wrap">
+  <div class="wrap rv">
     <h2>C# from the first instruction to DOOM.</h2>
     <p>SharpOS is public domain under CC0. Use it, change it, send pull requests.</p>
     <div class="actions">
