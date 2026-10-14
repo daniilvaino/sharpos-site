@@ -32,7 +32,7 @@
       <li><a href="#runs">Демо</a></li>
       <li><a href="#pipes">Трубы</a></li>
       <li><a href="#status">Статус</a></li>
-      <li><a href="#start">Запуск</a></li>
+      <li><a href="#start">Быстрый старт</a></li>
     </ul>
     <div class="side">
       <a href="../" hreflang="en" lang="en" title="English version">EN</a>
@@ -45,14 +45,15 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">x86_64 · UEFI · NativeAOT · CC0</div>
+        <div class="eyebrow">x86-64 · UEFI · NativeAOT · CC0</div>
         <h1>Операционная система, целиком написанная на C#.</h1>
-        <p class="lead">Загрузчик, ядро, сборщик мусора, драйверы, оболочка и приложения. В дереве <strong>нет ни одного файла <code>.c</code>, <code>.h</code> или <code>.asm</code></strong>, кроме форка CoreCLR, и на этом уже работают стоковый <strong>PowerShell 7</strong> и <strong>DOOM</strong>.</p>
+        <p class="lead">Загрузчик, ядро, сборщик мусора, драйверы, оболочка и приложения. Ядро, DOOM и оболочка написаны на <strong>чистом C#</strong>: ни одного файла <code>.c</code>, <code>.h</code> или <code>.asm</code>. Стоковый <strong>PowerShell 7</strong> работает поверх этого через опциональный форк CoreCLR: это единственный компонент на C++, и он лежит в отдельном подмодуле.</p>
         <div class="actions">
           <a class="btn" href="#start">Собрать и запустить</a>
           <a href="https://github.com/daniilvaino/SharpOS">Репозиторий на GitHub</a>
           <a href="https://github.com/daniilvaino/SharpOS/blob/main/limits.md">Известные ограничения</a>
         </div>
+        <div class="meta">Обновлено 15 октября 2026 · сборка <code>931671e</code> · <a href="https://github.com/daniilvaino/SharpOS/commits/main">история коммитов</a> · <a href="https://github.com/daniilvaino/SharpOS/discussions">обсуждения</a></div>
       </div>
       <div class="term" aria-label="Лог загрузки SharpOS">
         <div class="term-bar"><i></i><i></i><i></i><span>COM1 — qemu-system-x86_64</span></div>
@@ -68,7 +69,7 @@
   <div class="wrap rv">
     <div class="label">Инвариант №1</div>
     <h2>Весь исходный код на C#, даже то, что обычно пишут на ассемблере.</h2>
-    <p>MSBuild и PowerShell только оркестрируют сборку. Обработчики прерываний, write barrier'ы, трамплины interface dispatch, чтение CR3: всё решается одним из трёх способов. Ноль строк на C, C++ или ассемблере, кроме форка CoreCLR. Насколько известно, других ОС с таким инвариантом нет. Если задача кажется нерешаемой на C#, значит, она неверно поставлена.</p>
+    <p>MSBuild и PowerShell только оркестрируют сборку. Обработчики прерываний, write barrier'ы, трамплины interface dispatch, чтение CR3: всё решается одним из трёх способов. Ярусы 0 и 1, то есть ядро и все нативные приложения, не содержат ни строки на C, C++ или ассемблере. Единственное исключение, ярус 2: стоковому PowerShell нужны JIT и рефлексия, поэтому он работает на опциональном форке CoreCLR. Форк написан на C++ и для сборки и загрузки системы не нужен. Насколько известно, других managed-ОС с таким инвариантом нет: Cosmos на нижнем уровне опускается до X#, собственного диалекта ассемблера, а Singularity держала загрузчик и HAL на C++ и ассемблере. Если задача кажется нерешаемой на C#, значит, она неверно поставлена.</p>
     <div class="cols">
       <div>
         <div class="label">1 · Средства языка</div>
@@ -116,7 +117,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
         <div class="label">Ярус 2</div>
         <h3>CoreCLR-hosted</h3>
         <p>Стоковые .NET DLL байт-в-байт: JIT, рефлексия, полный BCL. Так работает PowerShell.</p>
-        <dl class="kv"><dt>Где</dt><dd>\sharpos\*.dll на FAT</dd><dt>Сборка</dt><dd>форк CoreCLR, слинкован с ядром</dd></dl>
+        <dl class="kv"><dt>Где</dt><dd>\sharpos\*.dll на FAT</dd><dt>Сборка</dt><dd>опциональный форк CoreCLR (C++), слинкован с ядром</dd></dl>
       </div>
     </div>
   </div>
@@ -144,7 +145,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
         <div class="frame"><img src="../media/screenshot.png" alt="Лаунчер SharpOS и вывод fetch.exe" loading="lazy" width="1600" height="855"></div>
         <div>
           <h3>Своя среда</h3>
-          <p>Лаунчер на Terminal.Gui, оболочка с синтаксисом bash и историей, до 16 процессов через <code>Process.Start</code>, свой FAT32 с записью, USB-стек на xHCI, проверенный на реальном железе, эмуляторы NES.</p>
+          <p>Лаунчер на Terminal.Gui, оболочка с синтаксисом bash и историей, до 16 процессов через <code>Process.Start</code>, свой FAT32 с записью, USB-стек на xHCI, проверенный на реальном железе, эмуляторы NES. Повседневная разработка идёт в QEMU; на физической машине из всего этого проверялся именно USB-стек.</p>
           <div class="tags">Terminal.Gui · bash-like shell · xHCI USB · FAT32 r/w · NES</div>
         </div>
       </figure>
@@ -277,7 +278,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
       <li><a href="https://github.com/gui-cs/Terminal.Gui">Terminal.Gui</a><small>MIT</small><br>Текстовый интерфейс, на нём написан лаунчер.</li>
       <li><a href="https://github.com/migueldeicaza/XtermSharp">XtermSharp</a><small>MIT</small><br>Движок эмулятора терминала: ANSI/VT, прокрутка.</li>
       <li><a href="https://github.com/microsoft/Kusto-Query-Language">Kusto.Language</a><small>Apache-2.0</small><br>Разбор и связывание KQL для запросов в трубах.</li>
-      <li><a href="https://github.com/CosmosOS/Cosmos">Cosmos</a><small>идея</small><br>Сама идея managed-операционной системы.</li>
+      <li><a href="https://github.com/CosmosOS/Cosmos">Cosmos</a><small>идея</small><br>Сама идея managed-операционной системы. Её нижний уровень написан на X#, диалекте ассемблера, поэтому инвариант «всё на C#» она не держит.</li>
     </ul>
   </div>
 </section>
@@ -297,7 +298,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
 
 <footer>
   <div class="wrap">
-    <span>SharpOS · CC0 1.0 Universal · <a href="../" hreflang="en" lang="en">In English</a></span>
+    <span>SharpOS · CC0 1.0 Universal · обновлено 15.10.2026 · <a href="../" hreflang="en" lang="en">In English</a></span>
     <a href="https://github.com/daniilvaino/SharpOS">github.com/daniilvaino/SharpOS</a>
   </div>
 </footer>

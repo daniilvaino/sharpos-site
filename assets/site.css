@@ -85,6 +85,9 @@ p { margin: 0 0 1em; }
 .cur { display: inline-block; width: 8px; height: 14px; background: #d8d8d8; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 figure { margin: 0; }
+.meta { margin-top: 22px; font-size: 14px; color: var(--fg-3); }
+.meta a { color: var(--fg-2); }
+.meta code { font-size: 13px; }
 figcaption { font-size: 14px; color: var(--fg-3); margin-top: 10px; }
 .frame { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #000; }
 
