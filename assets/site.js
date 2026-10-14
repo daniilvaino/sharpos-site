@@ -27,18 +27,15 @@
       ['ok', 'CoreCLR host ready'],
       ['c-p', 'INIT=\\bin\\LAUNCHER.EXE'],
       ['', ''],
-      ['p', "PIPEGEN 100 | KQL 'summarize n = count() by Level'"],
-      ['c-w', 'Level  n'],
-      ['', '0      20'],
-      ['', '1      20'],
-      ['', '2      20'],
-      ['', '3      20'],
-      ['', '4      20'],
+      ['p', "pipegen 100 | KQL 'summarize n = count() by Level'"],
+      ['', '[kql] start ms: declared=0 bind1=0 bind2=1 first=5 total=6'],
+      ['x', '0'], ['x', '1'], ['x', '2'], ['x', '3'], ['x', '4'],
       ['p', 'DOOM.EXE'],
     ];
     const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
     const prompt = '<span class="c-ok">\\home $</span> ';
     const fmt = ([k, t]) => k === 'ok' ? `<span class="c-ok">[  OK  ]</span> ${esc(t)}`
+      : k === 'x' ? `<span class="c-ok">Expando</span> { Level = <span class="c-n">${t}</span>, n = <span class="c-n">20</span> }`
       : k === 'p' ? prompt + esc(t)
       : k ? `<span class="${k}">${esc(t)}</span>` : esc(t);
     if (reduce) {

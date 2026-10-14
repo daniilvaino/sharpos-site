@@ -79,16 +79,16 @@
         <div class="label">2 · Machine code from C#</div>
         <h3>Iced assembler, at build time and at runtime</h3>
         <p>A source generator bakes 16 early-boot stubs into byte templates. Once the heap is up, Iced is called directly.</p>
-<pre><code>var a = new Assembler(64);
-a.mov(rax, rcx);
-a.Assemble(writer, rip);</code></pre>
+<pre><code><span class="k">var</span> a = <span class="k">new</span> <span class="t">Assembler</span>(<span class="n">64</span>);
+a.<span class="f">mov</span>(rax, rcx);
+a.<span class="f">Assemble</span>(writer, rip);</code></pre>
       </div>
       <div>
         <div class="label">3 · Symbols from attributes</div>
         <h3>COFF objects without a line of C</h3>
         <p>When the linker needs a symbol ILC does not emit, an MSBuild task generates the <code>.obj</code> itself.</p>
-<pre><code>[BootAsm.CoffDataSymbol("__security_cookie", Section = ".data")]
-public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
+<pre><code>[<span class="t">BootAsm</span>.<span class="t">CoffDataSymbol</span>(<span class="str">"__security_cookie"</span>, Section = <span class="str">".data"</span>)]
+<span class="k">public static ulong</span> SecurityCookie = <span class="n">0x2B992DDFA232UL</span>;</code></pre>
       </div>
     </div>
   </div>
@@ -172,9 +172,9 @@ public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
         <li><b>Zero allocations per message</b>Copy, forward, read in place. On a 100-object graph it is 5–6× faster than <code>BinaryWriter</code> + <code>BinaryReader</code>.</li>
         <li><b>Queries right in the pipeline</b>Kusto Query Language over a message stream: <code>where</code>, <code>summarize</code>, <code>extend</code>, <code>project</code>. The query binds before the first data arrives.</li>
         <li><b>One attribute and a type can travel</b>Mark a type with <code>[Message]</code> and it can be read, filtered and written back without a copy.
-<pre><code>Pipe.Read&lt;LogEntry&gt;()
-    .Where(e =&gt; e.Level &gt;= min)
-    .WriteTo();  // zero-copy</code></pre></li>
+<pre><code><span class="t">Pipe</span>.<span class="f">Read</span>&lt;<span class="t">LogEntry</span>&gt;()
+    .<span class="f">Where</span>(e =&gt; e.Level &gt;= min)
+    .<span class="f">WriteTo</span>();  <span class="cm">// zero-copy</span></code></pre></li>
         <li><b>JSON, JSON Lines, CBOR</b><code>CONVERT</code> is fully streaming with one message in memory: a 100 MiB file passes through a 64 MiB heap.</li>
       </ul>
     </div>
@@ -235,29 +235,29 @@ public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
         <div class="panel on" id="p-mise">
           <button class="copy" data-done="copied" data-fail="failed">copy</button>
 <pre><code><span class="cm"># macOS / Linux / Windows</span>
-brew install mise            <span class="cm"># or: winget install jdx.mise</span>
+<span class="f">brew</span> install mise            <span class="cm"># or: winget install jdx.mise</span>
 
-git clone --recurse-submodules \
-  https://github.com/daniilvaino/SharpOS.git
-cd SharpOS
-mise trust &amp;&amp; mise bootstrap
-mise exec -- pwsh
+<span class="f">git</span> clone <span class="v">--recurse-submodules</span> \
+  <span class="str">https://github.com/daniilvaino/SharpOS.git</span>
+<span class="k">cd</span> SharpOS
+<span class="f">mise</span> trust &amp;&amp; <span class="f">mise</span> bootstrap
+<span class="f">mise</span> exec -- pwsh
 
 <span class="cm"># then, in PowerShell</span>
-./build.ps1 launcher
-$env:SHARPOS_GUI=1; ./run_build.ps1 -UsbOnly -SkipCoreClr</code></pre>
+<span class="f">./build.ps1</span> launcher
+<span class="v">$env:SHARPOS_GUI</span>=<span class="n">1</span>; <span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
         </div>
         <div class="panel" id="p-nix">
           <button class="copy" data-done="copied" data-fail="failed">copy</button>
 <pre><code><span class="cm"># NixOS or any Linux with flakes enabled</span>
-git clone --recurse-submodules \
-  https://github.com/daniilvaino/SharpOS.git
-cd SharpOS
-nix develop --command pwsh
+<span class="f">git</span> clone <span class="v">--recurse-submodules</span> \
+  <span class="str">https://github.com/daniilvaino/SharpOS.git</span>
+<span class="k">cd</span> SharpOS
+<span class="f">nix</span> develop <span class="v">--command</span> pwsh
 
 <span class="cm"># then, in PowerShell</span>
-./build.ps1 launcher
-$env:SHARPOS_GUI=1; ./run_build.ps1 -UsbOnly -SkipCoreClr</code></pre>
+<span class="f">./build.ps1</span> launcher
+<span class="v">$env:SHARPOS_GUI</span>=<span class="n">1</span>; <span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
         </div>
       </div>
     </div>

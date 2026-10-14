@@ -79,16 +79,16 @@
         <div class="label">2 · Машинный код из C#</div>
         <h3>Ассемблер Iced: при сборке и на лету</h3>
         <p>Source generator превращает 16 стабов раннего старта в байтовые шаблоны. Когда куча поднята, Iced вызывается напрямую.</p>
-<pre><code>var a = new Assembler(64);
-a.mov(rax, rcx);
-a.Assemble(writer, rip);</code></pre>
+<pre><code><span class="k">var</span> a = <span class="k">new</span> <span class="t">Assembler</span>(<span class="n">64</span>);
+a.<span class="f">mov</span>(rax, rcx);
+a.<span class="f">Assemble</span>(writer, rip);</code></pre>
       </div>
       <div>
         <div class="label">3 · Символы из атрибута</div>
         <h3>COFF-объекты без единой строки на C</h3>
         <p>Если линкеру нужен символ, который ILC не эмитит, MSBuild-задача сама создаёт <code>.obj</code>.</p>
-<pre><code>[BootAsm.CoffDataSymbol("__security_cookie", Section = ".data")]
-public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
+<pre><code>[<span class="t">BootAsm</span>.<span class="t">CoffDataSymbol</span>(<span class="str">"__security_cookie"</span>, Section = <span class="str">".data"</span>)]
+<span class="k">public static ulong</span> SecurityCookie = <span class="n">0x2B992DDFA232UL</span>;</code></pre>
       </div>
     </div>
   </div>
@@ -172,9 +172,9 @@ public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
         <li><b>Ноль выделений на сообщение</b>Копия, пересылка, чтение на месте. На графе из 100 объектов в 5–6 раз быстрее, чем <code>BinaryWriter</code> + <code>BinaryReader</code>.</li>
         <li><b>Запросы прямо в конвейере</b>Kusto Query Language над потоком сообщений: <code>where</code>, <code>summarize</code>, <code>extend</code>, <code>project</code>. Запрос связывается до прихода первых данных.</li>
         <li><b>Один атрибут, и тип ходит по трубе</b>Пометьте тип атрибутом <code>[Message]</code>, и его можно читать, фильтровать и писать обратно без копии.
-<pre><code>Pipe.Read&lt;LogEntry&gt;()
-    .Where(e =&gt; e.Level &gt;= min)
-    .WriteTo();  // без копии</code></pre></li>
+<pre><code><span class="t">Pipe</span>.<span class="f">Read</span>&lt;<span class="t">LogEntry</span>&gt;()
+    .<span class="f">Where</span>(e =&gt; e.Level &gt;= min)
+    .<span class="f">WriteTo</span>();  <span class="cm">// без копии</span></code></pre></li>
         <li><b>JSON, JSON Lines, CBOR</b><code>CONVERT</code> работает потоково, в памяти одно сообщение: файл на 100 МиБ проходит через кучу в 64 МиБ.</li>
       </ul>
     </div>
@@ -235,29 +235,29 @@ public static ulong SecurityCookie = 0x2B992DDFA232UL;</code></pre>
         <div class="panel on" id="p-mise">
           <button class="copy" data-done="скопировано" data-fail="не вышло">копировать</button>
 <pre><code><span class="cm"># macOS / Linux / Windows</span>
-brew install mise            <span class="cm"># или winget install jdx.mise</span>
+<span class="f">brew</span> install mise            <span class="cm"># или winget install jdx.mise</span>
 
-git clone --recurse-submodules \
-  https://github.com/daniilvaino/SharpOS.git
-cd SharpOS
-mise trust &amp;&amp; mise bootstrap
-mise exec -- pwsh
+<span class="f">git</span> clone <span class="v">--recurse-submodules</span> \
+  <span class="str">https://github.com/daniilvaino/SharpOS.git</span>
+<span class="k">cd</span> SharpOS
+<span class="f">mise</span> trust &amp;&amp; <span class="f">mise</span> bootstrap
+<span class="f">mise</span> exec -- pwsh
 
 <span class="cm"># дальше в PowerShell</span>
-./build.ps1 launcher
-$env:SHARPOS_GUI=1; ./run_build.ps1 -UsbOnly -SkipCoreClr</code></pre>
+<span class="f">./build.ps1</span> launcher
+<span class="v">$env:SHARPOS_GUI</span>=<span class="n">1</span>; <span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
         </div>
         <div class="panel" id="p-nix">
           <button class="copy" data-done="скопировано" data-fail="не вышло">копировать</button>
 <pre><code><span class="cm"># NixOS или любой Linux с включёнными флейками</span>
-git clone --recurse-submodules \
-  https://github.com/daniilvaino/SharpOS.git
-cd SharpOS
-nix develop --command pwsh
+<span class="f">git</span> clone <span class="v">--recurse-submodules</span> \
+  <span class="str">https://github.com/daniilvaino/SharpOS.git</span>
+<span class="k">cd</span> SharpOS
+<span class="f">nix</span> develop <span class="v">--command</span> pwsh
 
 <span class="cm"># дальше в PowerShell</span>
-./build.ps1 launcher
-$env:SHARPOS_GUI=1; ./run_build.ps1 -UsbOnly -SkipCoreClr</code></pre>
+<span class="f">./build.ps1</span> launcher
+<span class="v">$env:SHARPOS_GUI</span>=<span class="n">1</span>; <span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
         </div>
       </div>
     </div>
