@@ -81,7 +81,7 @@ p { margin: 0 0 1em; }
 .term-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
 .term-bar span { margin-left: 6px; }
 .term pre { margin: 0; padding: 16px 18px; background: none; border-radius: 0; font-size: 13px; line-height: 1.6; height: 380px; overflow: hidden; white-space: pre-wrap; word-break: break-word; }
-.c-ok { color: #6cc98a; } .c-n { color: #e07a7a; } .c-dim { color: #6e6e6e; } .c-p { color: #b3a1ff; } .c-w { color: #e0a74a; } .c-b { color: #fff; font-weight: 600; }
+.c-ok { color: #6cc98a; } .c-cy { color: #5fd7e0; font-weight: 600; } .c-err { color: #e07a7a; } .c-dim { color: #6e6e6e; } .c-p { color: #b3a1ff; } .c-w { color: #e0a74a; } .c-b { color: #fff; font-weight: 600; }
 .cur { display: inline-block; width: 8px; height: 14px; background: #d8d8d8; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 figure { margin: 0; }
