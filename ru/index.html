@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SharpOS — операционная система, целиком написанная на C#</title>
-<meta name="description" content="Экспериментальная ОС для x86-64, целиком написанная на C#: UEFI-загрузка, NativeAOT-ядро, свой GC, приложения, трубы объектов. Запускает стоковый PowerShell 7 и DOOM.">
+<meta name="description" content="Экспериментальная ОС для x86-64: ядро, драйверы, оболочка и приложения на чистом C#, без C и ассемблера. Стоковый PowerShell 7 работает на опциональном форке CoreCLR. Грузится и работает на реальном ноутбуке.">
 <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#151515" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="SharpOS — операционная система, целиком написанная на C#">
-<meta property="og:description" content="Ни одного .c, .h или .asm. UEFI, NativeAOT-ядро, свой GC, и на этом работают PowerShell 7 и DOOM.">
+<meta property="og:description" content="Ядро, DOOM и оболочка на чистом C#: ни одного .c, .h или .asm. PowerShell 7 на опциональном форке CoreCLR. Работает на реальном железе.">
 <meta property="og:image" content="https://sharpos.net/media/screenshot.png">
 <meta property="og:url" content="https://sharpos.net/ru/">
 <meta property="og:type" content="website">
@@ -47,17 +47,72 @@
       <div>
         <div class="eyebrow">x86-64 · UEFI · NativeAOT · CC0</div>
         <h1>Операционная система, целиком написанная на C#.</h1>
-        <p class="lead">Загрузчик, ядро, сборщик мусора, драйверы, оболочка и приложения. Ядро, DOOM и оболочка написаны на <strong>чистом C#</strong>: ни одного файла <code>.c</code>, <code>.h</code> или <code>.asm</code>. Стоковый <strong>PowerShell 7</strong> работает поверх этого через опциональный форк CoreCLR: это единственный компонент на C++, и он лежит в отдельном подмодуле.</p>
+        <p class="lead">Загрузчик, ядро, сборщик мусора, драйверы, оболочка и приложения. Ядро, DOOM и оболочка написаны на <strong>чистом C#</strong>: ни одного файла <code>.c</code>, <code>.h</code> или <code>.asm</code>. Стоковый <strong>PowerShell 7</strong> работает поверх этого через опциональный форк CoreCLR: это единственный компонент на C++, и он лежит в отдельном подмодуле. Всё это, включая CoreCLR, грузится и работает на реальном ноутбуке, а не только в QEMU.</p>
         <div class="actions">
           <a class="btn" href="#start">Собрать и запустить</a>
           <a href="https://github.com/daniilvaino/SharpOS">Репозиторий на GitHub</a>
           <a href="https://github.com/daniilvaino/SharpOS/blob/main/limits.md">Известные ограничения</a>
         </div>
-        <div class="meta">Обновлено 15 октября 2026 · сборка <code>931671e</code> · <a href="https://github.com/daniilvaino/SharpOS/commits/main">история коммитов</a> · <a href="https://github.com/daniilvaino/SharpOS/discussions">обсуждения</a></div>
+        <div class="meta">Последний коммит <time data-updated datetime="2026-10-13">13 октября 2026</time> · сборка <code data-build>931671e</code> · <a href="https://github.com/daniilvaino/SharpOS/commits/main">история коммитов</a> · <a href="https://github.com/daniilvaino/SharpOS/issues">issues</a></div>
       </div>
       <div class="term" aria-label="Лог загрузки SharpOS">
         <div class="term-bar"><i></i><i></i><i></i><span>COM1 — qemu-system-x86_64</span></div>
-        <pre id="boot"></pre>
+        <pre id="boot"><span class="c-dim">BdsDxe: loading Boot0002 "UEFI QEMU QEMU USB HARDDRIVE 1-0000:00:02.0-3"</span>
+<span class="c-dim">BdsDxe: starting Boot0002 "UEFI QEMU QEMU USB HARDDRIVE 1-0000:00:02.0-3"</span>
+<span class="c-dim">[uefi]</span> image protection: base=0x7CBBB000 size=0xD07000
+<span class="c-dim">[info]</span> boot info ready, switching to the kernel stack
+<span class="c-dim">[info]</span> on the kernel stack, installing the IDT
+<span class="c-b">[info] SharpOS 0.1</span>
+<span class="c-dim">[info]</span> build: 931671e+dirty.1014-2355-pipe-dev
+<span class="c-dim">[info]</span> boot: UEFI  fw: EDK II / rev 65536
+<span class="c-dim">[info]</span> caps: TextOutput Shutdown MemoryMap ExternalElf KeyboardInput
+<span class="c-dim">[info]</span> idt installed
+<span class="c-dim">[info]</span> memory regions: 83
+<span class="c-dim">[info]</span> usable pages: 509110
+<span class="c-dim">[info]</span> heap init ok
+<span class="c-dim">[info]</span> iface dispatch bridge installed
+<span class="c-dim">[info]</span> throw-ex shellcode: bytes=150 head=0x000000007D7A6358
+<span class="c-dim">[info]</span> call-catch-funclet shellcode installed
+<span class="c-dim">[info]</span> gc collect hook installed (precise once the walker is up)
+<span class="c-dim">[info]</span> coff-pdata: records=25800 managed=0x00C50000..0x00CF6684
+<span class="c-dim">[cr3]</span> readstub iced=legacy <span class="c-ok">OK</span> len=0x4
+<span class="c-dim">[cr3]</span> writestub iced=legacy <span class="c-ok">OK</span> len=0x7
+<span class="c-dim">[info]</span> pager root activated (clone CR3 live)
+<span class="c-dim">[info]</span> VA 0 unmapped (null-deref trap)
+<span class="c-dim">[info]</span> tss: double fault on its own stack (IST1)
+<span class="c-dim">[info]</span> framebuffer mapped: 1280x800 va=0x80000000 modes=30
+<span class="c-dim">[info]</span> acpi madt: lapic=0xFEE00000 cpus=1 ioapics=1
+<span class="c-dim">[info]</span> hpet: freq=100000000 Hz comparators=3 64bit=yes
+<span class="c-dim">[serial]</span> COM1 own 16550: PRESENT (loopback <span class="c-ok">OK</span>)
+<span class="c-dim">[gop]</span> 1280x800 base=0x80000000 stride=1280 fmt=1
+<span class="c-dim">[pci]</span> devs=6 ahci=0:31.2 id=0x8086:0x2922 <span class="c-ok">PASS</span>
+<span class="c-dim">[usb]</span> xHCI(3.x) at 0:2.0 vid=0x1B36 did=0xD mmio=0xC000000000
+<span class="c-dim">[ebs]</span> ExitBootServices <span class="c-ok">OK</span> -- POST-EBS substrate <span class="c-ok">LIVE</span>
+<span class="c-dim">[apic]</span> id=0 ver=0x14 timer=1563 kHz
+<span class="c-dim">[xhci]</span> port 2 connected speed=4 (usb3) slot=1 functions=storage
+<span class="c-dim">[xhci]</span> port 4 connected speed=3 (usb2) slot=2 functions=keyboard
+<span class="c-dim">[xhci]</span> usb keyboard attached as system input
+<span class="c-dim">[fat]</span> mount=Y FAT32 bps=512 spc=8 lfn:CoreLib.dll sz=16003072 <span class="c-ok">PASS</span>
+<span class="c-b">=== CoreClrProbe ===</span>
+<span class="c-dim">[host]</span> GC heap limit 994 MiB of 1988 MiB usable
+<span class="c-dim">[host]</span> FileOpen path="\sharpos\System.Private.CoreLib.dll"
+<span class="c-dim">[fsread]</span> done sz=16003072 read_ms=38 total_ms=69
+<span class="c-dim">[r2r]</span> System.Private.CoreLib: Ready to Run initialized successfully
+coreclr_initialize hr=0x0
+<span class="c-b">=== S_OK — CoreCLR initialized ===</span>
+<span class="c-dim">[info]</span> pe launcher start
+<span class="c-dim">[info]</span> config: \config\system.env read
+<span class="c-dim">[info]</span> app run start: \bin\LAUNCHER.EXE
+
+<span class="c-cy">SharpOS shell</span><span class="c-dim"> — 'help' for what exists, Tab completes, Up/Down for history, 'exit' to leave</span>
+<span class="c-ok">\home</span> $ pipegen 100 | KQL 'summarize n = count() by Level'
+[kql] start ms: declared=0 bind1=0 bind2=1 first=5 total=6
+<span class="c-cy">Expando</span><span class="c-dim"> { </span>Level<span class="c-dim"> = </span><span class="c-w">0</span><span class="c-dim">, </span>n<span class="c-dim"> = </span><span class="c-w">20</span><span class="c-dim"> }</span>
+<span class="c-cy">Expando</span><span class="c-dim"> { </span>Level<span class="c-dim"> = </span><span class="c-w">1</span><span class="c-dim">, </span>n<span class="c-dim"> = </span><span class="c-w">20</span><span class="c-dim"> }</span>
+<span class="c-cy">Expando</span><span class="c-dim"> { </span>Level<span class="c-dim"> = </span><span class="c-w">2</span><span class="c-dim">, </span>n<span class="c-dim"> = </span><span class="c-w">20</span><span class="c-dim"> }</span>
+<span class="c-cy">Expando</span><span class="c-dim"> { </span>Level<span class="c-dim"> = </span><span class="c-w">3</span><span class="c-dim">, </span>n<span class="c-dim"> = </span><span class="c-w">20</span><span class="c-dim"> }</span>
+<span class="c-cy">Expando</span><span class="c-dim"> { </span>Level<span class="c-dim"> = </span><span class="c-w">4</span><span class="c-dim">, </span>n<span class="c-dim"> = </span><span class="c-w">20</span><span class="c-dim"> }</span>
+<span class="c-ok">\home</span> $ DOOM.EXE</pre>
       </div>
     </div>
   </div>
@@ -69,7 +124,9 @@
   <div class="wrap rv">
     <div class="label">Инвариант №1</div>
     <h2>Весь исходный код на C#, даже то, что обычно пишут на ассемблере.</h2>
-    <p>MSBuild и PowerShell только оркестрируют сборку. Обработчики прерываний, write barrier'ы, трамплины interface dispatch, чтение CR3: всё решается одним из трёх способов. Ярусы 0 и 1, то есть ядро и все нативные приложения, не содержат ни строки на C, C++ или ассемблере. Единственное исключение, ярус 2: стоковому PowerShell нужны JIT и рефлексия, поэтому он работает на опциональном форке CoreCLR. Форк написан на C++ и для сборки и загрузки системы не нужен. Насколько известно, других managed-ОС с таким инвариантом нет: Cosmos на нижнем уровне опускается до X#, собственного диалекта ассемблера, а Singularity держала загрузчик и HAL на C++ и ассемблере. Если задача кажется нерешаемой на C#, значит, она неверно поставлена.</p>
+    <p>MSBuild и PowerShell только оркестрируют сборку. Обработчики прерываний, write barrier'ы, трамплины interface dispatch, чтение CR3: всё решается одним из трёх способов.</p>
+    <p>Ярусы 0 и 1, то есть ядро и все нативные приложения, не содержат ни строки на C, C++ или ассемблере. Единственное исключение, ярус 2: стоковому PowerShell нужны JIT и рефлексия, поэтому он работает на опциональном форке CoreCLR. Форк написан на C++ и для сборки и загрузки системы не нужен.</p>
+    <p>Насколько известно, других managed-ОС с таким инвариантом нет: Cosmos на нижнем уровне опускается до X#, собственного диалекта ассемблера, а Singularity держала загрузчик и HAL на C++ и ассемблере. Если задача кажется нерешаемой на C#, значит, она неверно поставлена.</p>
     <div class="cols">
       <div>
         <div class="label">1 · Средства языка</div>
@@ -148,7 +205,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
         <div class="frame"><img src="../media/screenshot.png" alt="Лаунчер SharpOS и вывод fetch.exe" loading="lazy" width="1600" height="855"></div>
         <div>
           <h3>Своя среда</h3>
-          <p>Лаунчер на Terminal.Gui, оболочка с синтаксисом bash и историей, до 16 процессов через <code>Process.Start</code>, свой FAT32 с записью, USB-стек на xHCI, проверенный на реальном железе, эмуляторы NES. Повседневная разработка идёт в QEMU; на физической машине из всего этого проверялся именно USB-стек.</p>
+          <p>Лаунчер на Terminal.Gui, оболочка с синтаксисом bash и историей, до 16 процессов через <code>Process.Start</code>, свой FAT32 с записью, USB-стек на xHCI, эмуляторы NES. Весь набор, ядро, оболочка, приложения, трубы и CoreCLR с PowerShell, тестируется на реальном ноутбуке, и полный набор проб там проходит.</p>
           <div class="tags">Terminal.Gui · bash-like shell · xHCI USB · FAT32 r/w · NES</div>
         </div>
       </figure>
@@ -194,18 +251,18 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
       <table>
         <thead><tr><th>Возможность</th><th>Kernel-AOT</th><th>PE-прил.</th><th>CoreCLR</th></tr></thead>
         <tbody>
-          <tr><td>Управляемая куча, GC с точным сканированием стека</td><td class="s s-y">●</td><td class="s s-y">●</td><td class="s s-y">●</td></tr>
-          <tr><td><code>try</code> / <code>catch</code> / <code>finally</code> / фильтры <code>when</code></td><td class="s s-y">●</td><td class="s s-y">●</td><td class="s s-y">●</td></tr>
-          <tr><td><code>async</code> / <code>await</code>, <code>yield return</code>, лямбды</td><td class="s s-y">●</td><td class="s s-y">●</td><td class="s s-y">●</td></tr>
-          <tr><td>Коллекции BCL, LINQ</td><td class="s s-y">●</td><td class="s s-y">●</td><td class="s s-y">●</td></tr>
-          <tr><td><code>Task.Run</code>, <code>lock</code>, многопоточные процессы</td><td class="s s-y">●</td><td class="s s-y">●</td><td class="s s-y">●</td></tr>
-          <tr><td><code>Math</code> с правильным округлением (SharpLibm, CORE-MATH)</td><td class="s s-y">●</td><td class="s s-y">●</td><td class="s s-p">◐</td></tr>
-          <tr><td><code>dynamic</code></td><td class="s s-n">○</td><td class="s s-p">◐</td><td class="s s-y">●</td></tr>
-          <tr><td>Рефлексия</td><td class="s s-n">○</td><td class="s s-n">○</td><td class="s s-y">●</td></tr>
-          <tr><td>USB (xHCI): клавиатура, флешки, аппаратный ключ U2F</td><td class="s s-p">◐</td><td class="s s-p">◐</td><td class="s s-x">–</td></tr>
-          <tr><td>Вытесняющая многозадачность</td><td class="s s-p">◐</td><td class="s s-p">◐</td><td class="s s-p">◐</td></tr>
-          <tr><td>SMP</td><td class="s s-l">◌</td><td class="s s-l">◌</td><td class="s s-l">◌</td></tr>
-          <tr><td>Сеть</td><td class="s s-n">○</td><td class="s s-n">○</td><td class="s s-n">○</td></tr>
+          <tr><td>Управляемая куча, GC с точным сканированием стека</td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td></tr>
+          <tr><td><code>try</code> / <code>catch</code> / <code>finally</code> / фильтры <code>when</code></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td></tr>
+          <tr><td><code>async</code> / <code>await</code>, <code>yield return</code>, лямбды</td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td></tr>
+          <tr><td>Коллекции BCL, LINQ</td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td></tr>
+          <tr><td><code>Task.Run</code>, <code>lock</code>, многопоточные процессы</td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td></tr>
+          <tr><td><code>Math</code> с правильным округлением (SharpLibm, CORE-MATH)</td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td><td class="s s-p"><span aria-hidden="true">◐</span><span class="sr">частично</span></td></tr>
+          <tr><td><code>dynamic</code></td><td class="s s-n"><span aria-hidden="true">○</span><span class="sr">пока нет</span></td><td class="s s-p"><span aria-hidden="true">◐</span><span class="sr">частично</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td></tr>
+          <tr><td>Рефлексия</td><td class="s s-n"><span aria-hidden="true">○</span><span class="sr">пока нет</span></td><td class="s s-n"><span aria-hidden="true">○</span><span class="sr">пока нет</span></td><td class="s s-y"><span aria-hidden="true">●</span><span class="sr">работает</span></td></tr>
+          <tr><td>USB (xHCI): клавиатура, флешки, аппаратный ключ U2F</td><td class="s s-p"><span aria-hidden="true">◐</span><span class="sr">частично</span></td><td class="s s-p"><span aria-hidden="true">◐</span><span class="sr">частично</span></td><td class="s s-x"><span aria-hidden="true">–</span><span class="sr">неприменимо</span></td></tr>
+          <tr><td>Вытесняющая многозадачность</td><td class="s s-p"><span aria-hidden="true">◐</span><span class="sr">частично</span></td><td class="s s-p"><span aria-hidden="true">◐</span><span class="sr">частично</span></td><td class="s s-p"><span aria-hidden="true">◐</span><span class="sr">частично</span></td></tr>
+          <tr><td>SMP</td><td class="s s-l"><span aria-hidden="true">◌</span><span class="sr">запланировано</span></td><td class="s s-l"><span aria-hidden="true">◌</span><span class="sr">запланировано</span></td><td class="s s-l"><span aria-hidden="true">◌</span><span class="sr">запланировано</span></td></tr>
+          <tr><td>Сеть</td><td class="s s-n"><span aria-hidden="true">○</span><span class="sr">пока нет</span></td><td class="s s-n"><span aria-hidden="true">○</span><span class="sr">пока нет</span></td><td class="s s-n"><span aria-hidden="true">○</span><span class="sr">пока нет</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -239,7 +296,8 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
         <div class="panel on" id="p-mise">
           <button class="copy" data-done="скопировано" data-fail="не вышло">копировать</button>
 <pre><code><span class="cm"># macOS / Linux / Windows</span>
-<span class="f">brew</span> install mise            <span class="cm"># или winget install jdx.mise</span>
+<span class="cm"># или на Windows: winget install jdx.mise</span>
+<span class="f">brew</span> install mise
 
 <span class="f">git</span> clone <span class="v">--recurse-submodules</span> \
   <span class="str">https://github.com/daniilvaino/SharpOS.git</span>
@@ -249,7 +307,8 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
 
 <span class="cm"># дальше в PowerShell</span>
 <span class="f">./build.ps1</span> launcher
-<span class="v">$env:SHARPOS_GUI</span>=<span class="n">1</span>; <span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
+<span class="v">$env:SHARPOS_GUI</span> = <span class="n">1</span>
+<span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
         </div>
         <div class="panel" id="p-nix">
           <button class="copy" data-done="скопировано" data-fail="не вышло">копировать</button>
@@ -261,7 +320,8 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
 
 <span class="cm"># дальше в PowerShell</span>
 <span class="f">./build.ps1</span> launcher
-<span class="v">$env:SHARPOS_GUI</span>=<span class="n">1</span>; <span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
+<span class="v">$env:SHARPOS_GUI</span> = <span class="n">1</span>
+<span class="f">./run_build.ps1</span> <span class="v">-UsbOnly -SkipCoreClr</span></code></pre>
         </div>
       </div>
     </div>
@@ -301,7 +361,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
 
 <footer>
   <div class="wrap">
-    <span>SharpOS · CC0 1.0 Universal · обновлено 15.10.2026 · <a href="../" hreflang="en" lang="en">In English</a></span>
+    <span>SharpOS · CC0 1.0 Universal · автор <a href="https://github.com/daniilvaino">daniilvaino</a> · <a href="../" hreflang="en" lang="en">In English</a></span>
     <a href="https://github.com/daniilvaino/SharpOS">github.com/daniilvaino/SharpOS</a>
   </div>
 </footer>

@@ -64,6 +64,7 @@ p { margin: 0 0 1em; }
 .nav ul a, .nav .side a { color: var(--fg-2); text-decoration: none; font-size: 15px; }
 .nav ul a:hover, .nav .side a:hover { color: var(--fg); text-decoration: underline; }
 .nav .side { display: flex; gap: 18px; flex: none; }
+.nav a { white-space: nowrap; }
 
 /* hero */
 .hero { padding: 72px 0 40px; }
@@ -71,6 +72,7 @@ p { margin: 0 0 1em; }
 .hero .lead { font-size: 20px; color: var(--fg-2); max-width: 38em; margin: 22px 0 28px; }
 .hero .lead strong { color: var(--fg); font-weight: 600; }
 .actions { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; }
+.actions a { white-space: nowrap; }
 .btn { display: inline-block; background: var(--fg); color: var(--bg); padding: 11px 18px; border-radius: 6px; text-decoration: none; font-weight: 500; }
 .btn:hover { text-decoration: none; opacity: 0.88; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center; }
@@ -80,7 +82,7 @@ p { margin: 0 0 1em; }
 .term-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid #262626; font: 12px var(--mono); color: #7a7a7a; }
 .term-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
 .term-bar span { margin-left: 6px; }
-.term pre { margin: 0; padding: 16px 18px; background: none; border-radius: 0; font-size: 13px; line-height: 1.6; height: 380px; overflow: hidden; white-space: pre-wrap; word-break: break-word; }
+.term pre { margin: 0; padding: 16px 18px; background: none; border-radius: 0; font-size: 13px; line-height: 1.6; height: 380px; overflow-y: auto; overflow-x: hidden; white-space: pre-wrap; word-break: break-word; }
 .c-ok { color: #6cc98a; } .c-cy { color: #5fd7e0; font-weight: 600; } .c-err { color: #e07a7a; } .c-dim { color: #6e6e6e; } .c-p { color: #b3a1ff; } .c-w { color: #e0a74a; } .c-b { color: #fff; font-weight: 600; }
 .cur { display: inline-block; width: 8px; height: 14px; background: #d8d8d8; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
@@ -137,7 +139,8 @@ dl.kv dd { margin: 0; font-family: var(--mono); font-size: 14px; }
 .table-scroll { overflow-x: auto; margin-top: 28px; }
 table { width: 100%; border-collapse: collapse; font-size: 15px; }
 th, td { padding: 10px 12px 10px 0; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { font-weight: 500; color: var(--fg-3); font-size: 14px; }
+th { font-weight: 500; color: var(--fg-3); font-size: 14px; white-space: nowrap; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 th:not(:first-child), td:not(:first-child) { text-align: center; width: 120px; }
 td.s { font-family: var(--mono); font-size: 15px; }
 .s-y { color: var(--ok); }
@@ -195,15 +198,27 @@ footer a { color: var(--fg-2); }
   .cols { grid-template-columns: 1fr; gap: 24px; }
   .demos, .pipes, .start, .demos .wide { grid-template-columns: 1fr; gap: 28px; }
   .credits { grid-template-columns: 1fr; }
-  .hero { padding-top: 48px; }
+  .hero { padding: 36px 0 24px; }
+  .hero .lead { margin: 16px 0 20px; }
+  .actions { flex-direction: column; align-items: flex-start; gap: 12px; }
   .hero-grid { grid-template-columns: 1fr; gap: 32px; }
   .term pre { height: 320px; font-size: 12px; }
-  section { padding-top: 56px; }
-  .nav .wrap { gap: 16px; }
+  section { padding-top: 40px; }
+  .end { padding: 40px 0 32px; }
+  .cols, .demos, .pipes, .start, .credits { margin-top: 24px; }
+  .hero figure { margin-top: 28px; }
+  .nav .wrap { flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; gap: 8px 16px; }
+  .nav .side { margin-left: auto; }
+  .nav ul { order: 3; width: 100%; margin: 0; flex-wrap: wrap; gap: 4px 16px; overflow: visible; white-space: normal; }
   .nav .side .gh-text { display: none; }
 }
 @media (max-width: 560px) {
   .hero .lead { font-size: 18px; }
-  th:not(:first-child), td:not(:first-child) { width: auto; padding-left: 8px; }
+  table { font-size: 14px; }
+  th, td { padding: 8px 4px 8px 0; }
+  th:not(:first-child), td:not(:first-child) { width: 58px; padding-left: 4px; }
+  th { font-size: 11px; }
   .panel pre { padding-right: 18px; padding-top: 44px; }
+  section { padding-top: 36px; }
+  .cols { gap: 20px; }
 }
