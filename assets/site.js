@@ -1,5 +1,4 @@
 (() => {
-  if (/(^|\.)sharpos\.org$/.test(location.hostname)) { location.replace('https://sharpos.net' + location.pathname + location.search + location.hash); return; }
   document.documentElement.classList.add('js');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 

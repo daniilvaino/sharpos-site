@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SharpOS — операционная система, целиком написанная на C#</title>
 <meta name="description" content="Экспериментальная ОС для x86-64: ядро, драйверы, оболочка и приложения на чистом C#, без C и ассемблера. Стоковый PowerShell 7 работает на опциональном форке CoreCLR. Грузится и работает на реальном ноутбуке.">
+<meta name="author" content="Daniil Vaino">
 <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#151515" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="SharpOS — операционная система, целиком написанная на C#">
@@ -47,13 +48,12 @@
       <div>
         <div class="eyebrow">x86-64 · UEFI · NativeAOT · CC0</div>
         <h1>Операционная система, целиком написанная на C#.</h1>
-        <p class="lead">Загрузчик, ядро, сборщик мусора, драйверы, оболочка и приложения. Ядро, DOOM и оболочка написаны на <strong>чистом C#</strong>: ни одного файла <code>.c</code>, <code>.h</code> или <code>.asm</code>. Стоковый <strong>PowerShell 7</strong> работает поверх этого через опциональный форк CoreCLR: это единственный компонент на C++, и он лежит в отдельном подмодуле. Всё это, включая CoreCLR, грузится и работает на реальном ноутбуке, а не только в QEMU.</p>
+        <p class="lead">Загрузчик, ядро, сборщик мусора, драйверы, оболочка и приложения. Ядро, DOOM и оболочка написаны на <strong>чистом C#</strong>: ни одного файла <code>.c</code>, <code>.h</code> или <code>.asm</code>. Стоковый <strong>PowerShell 7</strong> работает поверх этого через опциональный форк CoreCLR: это единственный компонент на C++, и он лежит в отдельном подмодуле. Всё это, включая CoreCLR, грузится и работает на реальном ноутбуке (HP 255 G10, Ryzen 3 7320U, прошивка AMI), а не только в QEMU.</p>
         <div class="actions">
           <a class="btn" href="#start">Собрать и запустить</a>
           <a href="https://github.com/daniilvaino/SharpOS">Репозиторий на GitHub</a>
           <a href="https://github.com/daniilvaino/SharpOS/blob/main/limits.md">Известные ограничения</a>
         </div>
-        <div class="meta">Последний коммит <time data-updated datetime="2026-10-13">13 октября 2026</time> · сборка <code data-build>931671e</code> · <a href="https://github.com/daniilvaino/SharpOS/commits/main">история коммитов</a> · <a href="https://github.com/daniilvaino/SharpOS/issues">issues</a></div>
       </div>
       <div class="term" aria-label="Лог загрузки SharpOS">
         <div class="term-bar"><i></i><i></i><i></i><span>COM1 — qemu-system-x86_64</span></div>
@@ -115,6 +115,7 @@ coreclr_initialize hr=0x0
 <span class="c-ok">\home</span> $ DOOM.EXE</pre>
       </div>
     </div>
+    <div class="meta">Последний коммит <time data-updated datetime="2026-10-13">13 октября 2026</time> · сборка <code data-build>931671e</code> · <a href="https://github.com/daniilvaino/SharpOS/commits/main">история коммитов</a> · <a href="https://github.com/daniilvaino/SharpOS/discussions">обсуждения</a></div>
   </div>
 </header>
 
@@ -205,7 +206,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
         <div class="frame"><img src="../media/screenshot.png" alt="Лаунчер SharpOS и вывод fetch.exe" loading="lazy" width="1600" height="855"></div>
         <div>
           <h3>Своя среда</h3>
-          <p>Лаунчер на Terminal.Gui, оболочка с синтаксисом bash и историей, до 16 процессов через <code>Process.Start</code>, свой FAT32 с записью, USB-стек на xHCI, эмуляторы NES. Весь набор, ядро, оболочка, приложения, трубы и CoreCLR с PowerShell, тестируется на реальном ноутбуке, и полный набор проб там проходит.</p>
+          <p>Лаунчер на Terminal.Gui, оболочка с синтаксисом bash и историей, до 16 процессов через <code>Process.Start</code>, свой FAT32 с записью, USB-стек на xHCI, эмуляторы NES. Весь набор, ядро, оболочка, приложения, трубы и CoreCLR с PowerShell, тестируется на реальном ноутбуке, HP 255 G10 с Ryzen 3 7320U, 8 ГБ памяти и прошивкой AMI, и полный набор проб там проходит.</p>
           <div class="tags">Terminal.Gui · bash-like shell · xHCI USB · FAT32 r/w · NES</div>
         </div>
       </figure>
@@ -361,7 +362,7 @@ a.<span class="f">Assemble</span>(writer, rip);</code></pre>
 
 <footer>
   <div class="wrap">
-    <span>SharpOS · CC0 1.0 Universal · автор <a href="https://github.com/daniilvaino">daniilvaino</a> · <a href="../" hreflang="en" lang="en">In English</a></span>
+    <span>SharpOS · CC0 1.0 Universal · автор <a href="https://github.com/daniilvaino">Даниил Вайно</a> · <a href="../" hreflang="en" lang="en">In English</a></span>
     <a href="https://github.com/daniilvaino/SharpOS">github.com/daniilvaino/SharpOS</a>
   </div>
 </footer>
