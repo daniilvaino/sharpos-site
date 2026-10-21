@@ -183,6 +183,10 @@ td.s { font-family: var(--mono); font-size: 15px; }
 /* end */
 .end { padding: 72px 0 56px; }
 .end p { font-size: 18px; max-width: 40em; }
+.end-grid { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+.mascot { width: 260px; margin: 0; }
+.mascot img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
+.mascot figcaption { margin-top: 8px; font-size: 13px; color: var(--fg-3); text-align: center; }
 footer { border-top: 1px solid var(--line); padding: 24px 0 40px; font-size: 14px; color: var(--fg-3); }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
 footer a { color: var(--fg-2); }
@@ -205,6 +209,8 @@ footer a { color: var(--fg-2); }
   .term pre { height: 320px; font-size: 12px; }
   section { padding-top: 40px; }
   .end { padding: 40px 0 32px; }
+  .end-grid { grid-template-columns: 1fr; gap: 24px; }
+  .mascot { width: 200px; }
   .cols, .demos, .pipes, .start, .credits { margin-top: 24px; }
   .hero figure { margin-top: 28px; }
   .nav .wrap { flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; gap: 8px 16px; }
