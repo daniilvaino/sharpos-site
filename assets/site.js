@@ -2,6 +2,54 @@
   document.documentElement.classList.add('js');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // falling portraits in the background: a fixed canvas behind the page,
+  // a few dozen small sprites drifting down. Off under reduced-motion.
+  if (!reduce) {
+    const cv = document.createElement('canvas');
+    cv.className = 'snow'; cv.setAttribute('aria-hidden', 'true');
+    document.body.prepend(cv);
+    const ctx = cv.getContext('2d');
+    const css = document.querySelector('link[rel="stylesheet"]').href;
+    const img = new Image(); img.src = css.replace(/assets\/site\.css.*$/, 'media/mascot.webp');
+    let W = 0, H = 0, dpr = 1, flakes = [], last = 0, raf = 0;
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const make = (fresh) => {
+      const z = Math.random();                       // depth: 0 far, 1 near
+      const s = 22 + z * 34;                         // sprite height in css px
+      return { x: rnd(-s, W + s), y: fresh ? -s * 1.3 : rnd(-s, H), s, z,
+        vy: 14 + z * 26, ph: rnd(0, Math.PI * 2), sw: rnd(6, 18), swv: rnd(0.4, 0.9),
+        r: rnd(-0.4, 0.4), rv: rnd(-0.35, 0.35), a: 0.18 + z * 0.22 };
+    };
+    const size = () => {
+      W = innerWidth; H = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2);
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.min(Math.max(W * H / 42000, 10), 36));
+      while (flakes.length < n) flakes.push(make(false));
+      flakes.length = n;
+    };
+    const tick = (t) => {
+      const dt = Math.min((t - last) / 1000, 0.05); last = t;
+      ctx.clearRect(0, 0, W, H);
+      const ar = img.naturalWidth / img.naturalHeight;
+      for (const f of flakes) {
+        f.y += f.vy * dt; f.ph += f.swv * dt; f.r += f.rv * dt;
+        if (f.y > H + f.s) Object.assign(f, make(true));
+        const x = f.x + Math.sin(f.ph) * f.sw, h = f.s, w = h * ar;
+        ctx.globalAlpha = f.a;
+        ctx.setTransform(dpr, 0, 0, dpr, x * dpr, f.y * dpr);
+        ctx.rotate(f.r);
+        ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(tick);
+    };
+    const start = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick); } };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+    addEventListener('resize', size);
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    img.onload = () => { size(); start(); };
+  }
+
   // reveal on scroll
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
