@@ -13,6 +13,17 @@
     const img = new Image(); img.src = css.replace(/assets\/site\.css.*$/, 'media/mascot.webp');
     let W = 0, H = 0, dpr = 1, flakes = [], last = 0, raf = 0, lastS = 0;
     const rnd = (a, b) => a + Math.random() * (b - a);
+    // the sprite is pre-scaled once to its largest on-screen size, so each
+    // frame samples a small bitmap instead of the 436x512 source
+    const sp = document.createElement('canvas');
+    const SMAX = 56;
+    const prescale = () => {
+      sp.height = Math.ceil(SMAX * dpr); sp.width = Math.ceil(sp.height * img.naturalWidth / img.naturalHeight);
+      sp.getContext('2d').drawImage(img, 0, 0, sp.width, sp.height);
+    };
+    // full strength in the margins, dimmed inside the 1040px text column
+    const COL = 520;
+    const fade = (x) => { const d = Math.abs(x - W / 2) - COL; return d >= 24 ? 1 : d <= -24 ? 0.3 : 0.3 + 0.7 * (d + 24) / 48; };
     const make = (fresh) => {
       const z = Math.random();                       // depth: 0 far, 1 near
       const s = 22 + z * 34;                         // sprite height in css px
@@ -21,8 +32,14 @@
         r: rnd(-0.4, 0.4), rv: rnd(-0.35, 0.35), a: 0.18 + z * 0.22 };
     };
     const size = () => {
-      W = innerWidth; H = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2);
-      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // the canvas is sized to the large viewport (100lvh), so the mobile
+      // address bar sliding in and out does not change it; the backing
+      // store is only reallocated when its pixel size really changes
+      W = cv.clientWidth; H = cv.clientHeight;
+      const d = Math.min(devicePixelRatio || 1, 2), bw = Math.round(W * d), bh = Math.round(H * d);
+      if (d !== dpr) { dpr = d; prescale(); }
+      if (bw !== cv.width || bh !== cv.height) { cv.width = bw; cv.height = bh; }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const n = Math.round(Math.min(Math.max(W * H / 42000, 10), 36));
       while (flakes.length < n) flakes.push(make(false));
       flakes.length = n;
@@ -32,17 +49,17 @@
       // scrolling moves the snow with the page, near flakes more than far ones
       const sy = scrollY, ds = sy - lastS; lastS = sy;
       ctx.clearRect(0, 0, W, H);
-      const ar = img.naturalWidth / img.naturalHeight;
+      const ar = sp.width / sp.height;
       for (const f of flakes) {
         f.y += f.vy * dt - ds * (0.35 + 0.65 * f.z); f.ph += f.swv * dt; f.r += f.rv * dt;
         const top = -f.s * 1.5, bot = H + f.s * 1.5;
         if (f.y > bot) Object.assign(f, make(true));
         else if (f.y < top) { f.y += bot - top; f.x = rnd(-f.s, W + f.s); }
         const x = f.x + Math.sin(f.ph) * f.sw, h = f.s, w = h * ar;
-        ctx.globalAlpha = f.a;
+        ctx.globalAlpha = f.a * fade(x);
         ctx.setTransform(dpr, 0, 0, dpr, x * dpr, f.y * dpr);
         ctx.rotate(f.r);
-        ctx.drawImage(img, -w / 2, -h / 2, w, h);
+        ctx.drawImage(sp, -w / 2, -h / 2, w, h);
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 1;
       raf = requestAnimationFrame(tick);
@@ -51,7 +68,7 @@
     const stop = () => { cancelAnimationFrame(raf); raf = 0; };
     addEventListener('resize', size);
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
-    img.onload = () => { size(); start(); };
+    img.onload = () => { dpr = 0; size(); start(); };
   }
 
   // reveal on scroll
