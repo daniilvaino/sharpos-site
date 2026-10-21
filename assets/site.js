@@ -11,7 +11,7 @@
     const ctx = cv.getContext('2d');
     const css = document.querySelector('link[rel="stylesheet"]').href;
     const img = new Image(); img.src = css.replace(/assets\/site\.css.*$/, 'media/mascot.webp');
-    let W = 0, H = 0, dpr = 1, flakes = [], last = 0, raf = 0;
+    let W = 0, H = 0, dpr = 1, flakes = [], last = 0, raf = 0, lastS = 0;
     const rnd = (a, b) => a + Math.random() * (b - a);
     const make = (fresh) => {
       const z = Math.random();                       // depth: 0 far, 1 near
@@ -29,11 +29,15 @@
     };
     const tick = (t) => {
       const dt = Math.min((t - last) / 1000, 0.05); last = t;
+      // scrolling moves the snow with the page, near flakes more than far ones
+      const sy = scrollY, ds = sy - lastS; lastS = sy;
       ctx.clearRect(0, 0, W, H);
       const ar = img.naturalWidth / img.naturalHeight;
       for (const f of flakes) {
-        f.y += f.vy * dt; f.ph += f.swv * dt; f.r += f.rv * dt;
-        if (f.y > H + f.s) Object.assign(f, make(true));
+        f.y += f.vy * dt - ds * (0.35 + 0.65 * f.z); f.ph += f.swv * dt; f.r += f.rv * dt;
+        const top = -f.s * 1.5, bot = H + f.s * 1.5;
+        if (f.y > bot) Object.assign(f, make(true));
+        else if (f.y < top) { f.y += bot - top; f.x = rnd(-f.s, W + f.s); }
         const x = f.x + Math.sin(f.ph) * f.sw, h = f.s, w = h * ar;
         ctx.globalAlpha = f.a;
         ctx.setTransform(dpr, 0, 0, dpr, x * dpr, f.y * dpr);
@@ -43,7 +47,7 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 1;
       raf = requestAnimationFrame(tick);
     };
-    const start = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick); } };
+    const start = () => { if (!raf) { last = performance.now(); lastS = scrollY; raf = requestAnimationFrame(tick); } };
     const stop = () => { cancelAnimationFrame(raf); raf = 0; };
     addEventListener('resize', size);
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
